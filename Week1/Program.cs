@@ -164,18 +164,20 @@ namespace Week1
 
         static List<Users> ViewUsers(List<Users> user)
         {
-            string userFormat = "    {0,-8}\t{1,-20}\t{2,-20}";
+            string userFormat = "    {0,-4}\t{1,-15}\t{2,-15}";
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n    -------------------------------------------------------------------------------------------------------\n" +
-                "    Create User\n" +
+                "    View Users\n" +
                 "    -------------------------------------------------------------------------------------------------------\n");
+            Console.WriteLine(userFormat, "User ID", "First Name", "Last Name");
+            Console.WriteLine(userFormat, "------", "-------------", "-------------");
             Console.ResetColor();
+
             foreach (Users u in user)
             {
                 Console.WriteLine(userFormat, u.GetUserID(), u.GetFName(), u.GetLName());
             }
-            Console.WriteLine("asdads");
             Console.ReadKey();
             return user;
         }
