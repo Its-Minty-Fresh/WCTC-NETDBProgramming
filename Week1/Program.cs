@@ -406,14 +406,8 @@ namespace Week1
                     {
                         max = watchGroup.Max(a => a.GetWatchGrpID() + 1);
                     }
-                    foreach (Ticket t in ticket)
-                    {
-                        if (t.GetTicketID() == tktID)
-                        {
-                            t.SetWatchingGrp(max);
-                        }
-                    }
-                    WatchGrp newwg = new WatchGrp(tktID, resp);
+
+                    WatchGrp newwg = new WatchGrp(max, resp);
                     watchGroup.Add(newwg);
                 }
                 else
@@ -421,6 +415,39 @@ namespace Week1
                     Console.Write("\n    What would you like to do?\n\n" +
                        "    1: Add Watchers\n" +
                        "    2: Remove Watchers\n");
+
+                    Console.Write("    ");
+                    userSelection = validateInt(Console.ReadLine());
+                    while ((userSelection < 0 || userSelection > 2))
+                    {
+                        Console.Write("    Please Enter a valid response 1 - 2 ");
+                        userSelection = validateInt(Console.ReadLine());
+                    }
+                    if(userSelection == 1)
+                    {
+                        Console.Write("\n    Enter User ID to add to Watch List: ");
+                        int resp = validateInt(Console.ReadLine());
+                        while (!userID.Contains(resp))
+                        {
+                            Console.Write("    Please select a valid User ID! ");
+                            resp = validateInt(Console.ReadLine());
+                        }
+                        WatchGrp newwg = new WatchGrp(wgID, resp);
+                        watchGroup.Add(newwg);
+                    }
+                    else if (userSelection == 2)
+                    {
+                        Console.Write("\n    Enter User ID to remove from the Watch List: ");
+                        int resp = validateInt(Console.ReadLine());
+                        while (!userID.Contains(resp))
+                        {
+                            Console.Write("    Please select a valid User ID! ");
+                            resp = validateInt(Console.ReadLine());
+                        }
+                        WatchGrp newwg = new WatchGrp(wgID, resp);
+                        watchGroup.Remove(newwg);
+                        SaveWatchGrp(watchGroup);
+                    }
                 }
 
                 Console.ReadKey();

@@ -55,6 +55,7 @@
   <ItemGroup>
     <Content Include="bin\Debug\Tickets.txt" />
     <Content Include="bin\Debug\Users.txt" />
+    <Content Include="bin\Debug\WatchGroups.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
