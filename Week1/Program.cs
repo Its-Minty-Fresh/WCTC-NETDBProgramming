@@ -295,28 +295,34 @@ namespace Week1
         static List<Ticket> ViewTickets(List<Ticket> ticket, List<Users> user, List<WatchGrp> watchGroup)
         {
             string ticketFormat = "    {0,-4}\t{1,-50}\t{2,-4}\t{3,-4}\t{4,-4}\t{5,-4}\t{6,-4}";
+            string watchGrpFormat = "    \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{0,-4}";
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n    ---------------------------------------------------------------------------------------------\n" +
                 "    View Tickets\n" +
                 "    ---------------------------------------------------------------------------------------------\n");
             Console.WriteLine(ticketFormat, "Ticket #", "Summary", "Status", "Priorty", "Assigned To", "Created By", "Watching");
-            Console.WriteLine(ticketFormat, "------", "------------------------------------", "------", "------", "------------", "------------", "------");
+            Console.WriteLine(ticketFormat, "------", "------------------------------------", "------", "------", "------------", "------------", "------------");
             Console.ResetColor();
 
 
-            var query = from t in ticket
+            var tktQuery = from t in ticket
                         join ua in user on t.GetAssignedID() equals ua.GetUserID()
                         join us in user on t.GetSubmitterID() equals us.GetUserID()
-                        join wg in watchGroup on t.GetWatchingGrp() equals wg.GetWatchGrpID()
-                        join uwg in user on wg.GetUserID() equals uwg.GetUserID()
                         select new { tkt = t.GetTicketID(), tsum = t.GetSummary(), status = t.GetStatus(), priority = t.GetPriority(), assigned = ua.GetFName() + " " + ua.GetLName(), 
-                                     submitted = us.GetFName() + " " + us.GetLName(), watchers = uwg.GetFName() + " " + uwg.GetLName(), wgID = t.GetWatchingGrp() };
+                                     submitted = us.GetFName() + " " + us.GetLName(),  wgID = t.GetWatchingGrp() };
 
-            foreach (var t in query)
+            var wGrpQuery = from t in ticket
+                            join wg in watchGroup on t.GetWatchingGrp() equals wg.GetWatchGrpID()
+                            join uw in user on wg.GetUserID() equals uw.GetUserID()
+                            where t.GetWatchingGrp() != 0
+                            select new { tkt = t.GetTicketID(), watcher = uw.GetFName() + " " + uw.GetLName(), wg = wg.GetWatchGrpID() };
+
+
+            foreach (var t in tktQuery)
             {
                 string summary;
-                if (t.tsum.Length > 50) // Limmit summary output to 50 charachters
+                if (t.tsum.Length > 50) // Limit summary output to 50 charachters
                 {
                     summary = t.tsum.Remove(50);
                 }
@@ -324,7 +330,23 @@ namespace Week1
                 {
                     summary = t.tsum;
                 }
-                Console.WriteLine(ticketFormat, t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, t.watchers);
+                string watcher;
+                if (t.wgID == 0)
+                {
+                    watcher = "";
+                }
+                else
+                {
+                    watcher = "Being Watched";
+                }
+                Console.WriteLine(ticketFormat, t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, watcher);
+                foreach (var u in wGrpQuery)
+                {
+                    if (t.wgID == u.wg)
+                    {
+                        Console.WriteLine(watchGrpFormat, u.watcher);
+                    }
+                }
             }
 
             Console.Write("\n    What would you like to do?\n\n" +
@@ -362,7 +384,7 @@ namespace Week1
                     "    View Tickets\n" +
                     "    ---------------------------------------------------------------------------------------------\n");
                 Console.WriteLine(ticketFormat, "Ticket #", "Summary", "Status", "Priorty", "Assigned To", "Created By", "Watching");
-                Console.WriteLine(ticketFormat, "------", "------------------------------------", "------", "------", "------------", "------------", "------");
+                Console.WriteLine(ticketFormat, "------", "------------------------------------", "------", "------", "------------", "------------", "------------");
                 Console.ResetColor();
 
                 // Create list of user IDs for validation
@@ -373,7 +395,7 @@ namespace Week1
                 }
 
                 int wgID = 0;
-                foreach (var t in query)
+                foreach (var t in tktQuery)
                 {
                     string summary;
                     if (t.tsum.Length > 50) // Limmit summary output to 50 charachters
@@ -384,9 +406,18 @@ namespace Week1
                     {
                         summary = t.tsum;
                     }
+                    string watcher;
+                    if (t.wgID == 0)
+                    {
+                        watcher = "";
+                    }
+                    else
+                    {
+                        watcher = "Being Watched";
+                    }
                     if (t.tkt == tktID)
                     {
-                        Console.WriteLine(ticketFormat, t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, t.watchers);
+                        Console.WriteLine(ticketFormat, t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, watcher);
                         wgID = t.wgID;
                     }
                 }
