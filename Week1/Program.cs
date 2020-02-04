@@ -423,7 +423,7 @@ namespace Week1
                     {
                         foreach (var u in wGrpQuery)
                         {
-                            if (t.wgID == u.wg)
+                            if (t.wgID == u.wg && u.tkt == tktID)
                             {
                                 watchers.Add(u.watcher);
                                 watcherCount = watchers.Count;
@@ -466,10 +466,83 @@ namespace Week1
                     }
 
                 }
-
-                if (wgID == 0) /* Watchgroup ID = 0 means no one is watching, so no need to ask to remove  */
+                int q = 0;
+                if (watcherCount > 1)
                 {
-                    // Show Available Users to add to watch list
+                    Console.Write("\n    What would you like to do?\n\n" +
+                    "    1: Add Watchers\n" +
+                    "    2: Remove Watchers\n" +
+                    "    3: Return to Main Menu");
+                    q = 3;
+                }
+                else
+                {
+                    Console.Write("\n    What would you like to do?\n\n" +
+                    "    1: Add Watchers\n" +
+                    "    2: Return to Main Menu\n");
+                    q = 2;
+                }
+
+
+                Console.Write("    ");
+                userSelection = validateInt(Console.ReadLine());
+                while ((userSelection < 0 || userSelection > q))
+                {
+                    Console.Write("    Please Enter a valid response 1 - " + q);
+                    userSelection = validateInt(Console.ReadLine());
+                }
+                if(userSelection == 1)
+                {
+                    List<int> currentWatchingIDs = new List<int>();
+                    foreach(var u in wGrpQuery)
+                    {
+                        if (wgID == u.wg)
+                        {
+                            currentWatchingIDs.Add(u.userID);
+                        }
+                    }
+
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(userFormat, "User ID", "First Name", "Last Name");
+                    Console.WriteLine(userFormat, "------", "-------------", "-------------");
+                    Console.ResetColor();
+
+                    foreach (Users u in user)
+                    {
+                        if (u.GetUserID() != 0 && (!currentWatchingIDs.Contains(u.GetUserID())))
+                        {
+                            Console.WriteLine(userFormat, u.GetUserID(), u.GetFName(), u.GetLName());
+                        }
+                    }
+                    Console.Write("\n    Enter User ID to add to Watch List: ");
+                    int resp = validateInt(Console.ReadLine());
+
+                    do
+                    {
+                        if (!userID.Contains(resp))
+                        {
+                            Console.Write("    Please select a valid User ID! ");
+                            resp = validateInt(Console.ReadLine());
+                        }
+                        if (currentWatchingIDs.Contains(resp))
+                        {
+                            Console.Write("    This user is already watching this ticket. Please select another user ID: ");
+                            resp = validateInt(Console.ReadLine());
+                        }
+                    } while ((!userID.Contains(resp)) || (currentWatchingIDs.Contains(resp)));
+
+
+                    WatchGrp newwg = new WatchGrp(wgID, resp);
+                    watchGroup.Add(newwg);
+
+                    Console.Write("\n    User Succesfully added as a watcher! ");
+                    Console.Write("\n    Press any Key to return to the Main Menu: ");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else if (userSelection == 2 && q == 3)
+                {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine(userFormat, "User ID", "First Name", "Last Name");
                     Console.WriteLine(userFormat, "------", "-------------", "-------------");
@@ -481,8 +554,7 @@ namespace Week1
                             Console.WriteLine(userFormat, u.GetUserID(), u.GetFName(), u.GetLName());
                         }
                     }
-
-                    Console.Write("\n    Enter User ID to add to Watch List: ");
+                    Console.Write("\n    Enter User ID to remove from the Watch List: ");
                     int resp = validateInt(Console.ReadLine());
                     while (!userID.Contains(resp))
                     {
@@ -490,115 +562,16 @@ namespace Week1
                         resp = validateInt(Console.ReadLine());
                     }
 
-                    int max = 0;
-                    foreach (WatchGrp w in watchGroup)
-                    {
-                        max = watchGroup.Max(a => a.GetWatchGrpID() + 1); // Find current max watchgroup ID and increment
-                    }
-                    WatchGrp newwg = new WatchGrp(max, resp);
-                    watchGroup.Add(newwg);
-                    foreach (var t in ticket)
-                    {
-                        if (tktID == t.GetTicketID())
-                        {
-                            t.SetWatchingGrp(max);
-                        }
+                    Console.Write("\n    User Succesfully added as a watcher! ");
+                    Console.Write("\n    Press any Key to return to the Main Menu: ");
+                    Console.ReadKey();
 
-                    }
-
+                    WatchGrp newwg = new WatchGrp(wgID, resp);
+                    watchGroup.Remove(newwg);
+                    SaveWatchGrp(watchGroup);
                 }
-                else /* Watchgroup ID != 0 means a watchgroup exists, so need to ask to add or remove */
-                {
-                    Console.Write("\n    What would you like to do?\n\n" +
-                       "    1: Add Watchers\n" +
-                       "    2: Remove Watchers\n");
+               
 
-                    Console.Write("    ");
-                    userSelection = validateInt(Console.ReadLine());
-                    while ((userSelection < 0 || userSelection > 2))
-                    {
-                        Console.Write("    Please Enter a valid response 1 - 2 ");
-                        userSelection = validateInt(Console.ReadLine());
-                    }
-                    if(userSelection == 1)
-                    {
-                        List<int> currentWatchingIDs = new List<int>();
-                        foreach(var u in wGrpQuery)
-                        {
-                            if (wgID == u.wg)
-                            {
-                                currentWatchingIDs.Add(u.userID);
-                            }
-                        }
-
-
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(userFormat, "User ID", "First Name", "Last Name");
-                        Console.WriteLine(userFormat, "------", "-------------", "-------------");
-                        Console.ResetColor();
-
-                        foreach (Users u in user)
-                        {
-                            if (u.GetUserID() != 0 && (!currentWatchingIDs.Contains(u.GetUserID())))
-                            {
-                                Console.WriteLine(userFormat, u.GetUserID(), u.GetFName(), u.GetLName());
-                            }
-                        }
-                        Console.Write("\n    Enter User ID to add to Watch List: ");
-                        int resp = validateInt(Console.ReadLine());
-
-                        do
-                        {
-                            if (!userID.Contains(resp))
-                            {
-                                Console.Write("    Please select a valid User ID! ");
-                                resp = validateInt(Console.ReadLine());
-                            }
-                            if (currentWatchingIDs.Contains(resp))
-                            {
-                                Console.Write("    This user is already watching this ticket. Please select another user ID: ");
-                                resp = validateInt(Console.ReadLine());
-                            }
-                        } while ((!userID.Contains(resp)) || (currentWatchingIDs.Contains(resp)));
-
-
-                        WatchGrp newwg = new WatchGrp(wgID, resp);
-                        watchGroup.Add(newwg);
-
-                        Console.Write("\n    User Succesfully added as a watcher! ");
-                        Console.Write("\n    Press any Key to return to the Main Menu: ");
-                        Console.ReadKey();
-                        Console.Clear();
-                    }
-                    else if (userSelection == 2)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(userFormat, "User ID", "First Name", "Last Name");
-                        Console.WriteLine(userFormat, "------", "-------------", "-------------");
-                        Console.ResetColor();
-                        foreach (Users u in user)
-                        {
-                            if (u.GetUserID() != 0)
-                            {
-                                Console.WriteLine(userFormat, u.GetUserID(), u.GetFName(), u.GetLName());
-                            }
-                        }
-                        Console.Write("\n    Enter User ID to remove from the Watch List: ");
-                        int resp = validateInt(Console.ReadLine());
-                        while (!userID.Contains(resp))
-                        {
-                            Console.Write("    Please select a valid User ID! ");
-                            resp = validateInt(Console.ReadLine());
-                        }
-
-
-                        WatchGrp newwg = new WatchGrp(wgID, resp);
-                        watchGroup.Remove(newwg);
-                        SaveWatchGrp(watchGroup);
-                    }
-                }
-
-                Console.ReadKey();
             }
 
             Console.Clear();
