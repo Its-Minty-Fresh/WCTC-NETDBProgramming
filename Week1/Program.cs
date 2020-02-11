@@ -116,20 +116,9 @@ namespace Week1
 
         static List<Ticket> CreateTicket(List<Ticket> ticket, List<Users> user)
         {
-            string ticketFormat = "    {0,-4}\t{1,-50}\t{2,-4}\t{3,-4}\t{4,-4}\t{5,-4}\t{6,-4}";
-            string userFormat = "    {0,-4}\t{1,-15}\t{2,-15}";
+            TicketsFormat();
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n    ---------------------------------------------------------------------------------------------\n" +
-                "    Create Ticket\n" +
-                "    ---------------------------------------------------------------------------------------------\n");
-            Console.ResetColor();
-
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(userFormat, "User ID", "First Name", "Last Name");
-            Console.WriteLine(userFormat, "------", "-------------", "-------------");
-            Console.ResetColor();
+            UserHeader();
 
             // Create list of user IDs for validation
             List<int> userID = new List<int>();
@@ -137,7 +126,7 @@ namespace Week1
             // Display users
             foreach (Users u in user)
             {
-                Console.WriteLine(userFormat, u.GetUserID(), u.GetFName(), u.GetLName());
+                Console.WriteLine(UsersFormat(), u.GetUserID(), u.GetFName(), u.GetLName());
                 userID.Add(u.GetUserID());
             }
 
@@ -197,17 +186,12 @@ namespace Week1
                 "    Create Ticket\n" +
                 "    ---------------------------------------------------------------------------------------------\n");
 
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(userFormat, "User ID", "First Name", "Last Name");
-            Console.WriteLine(userFormat, "------", "-------------", "-------------");
-            Console.ResetColor();
-
+            UserHeader();
 
             // Display users
             foreach (Users u in user)
             {
-                Console.WriteLine(userFormat, u.GetUserID(), u.GetFName(), u.GetLName());
+                Console.WriteLine(UsersFormat(), u.GetUserID(), u.GetFName(), u.GetLName());
                 userID.Add(u.GetUserID());
             }
 
@@ -231,23 +215,14 @@ namespace Week1
             Ticket newTicket = new Ticket(max, summary, "Open", pri, createdByID, assignedToID, 0);
             ticket.Add(newTicket);
 
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n    ---------------------------------------------------------------------------------------------\n" +
-                "    Create Ticket\n" +
-                "    ---------------------------------------------------------------------------------------------\n");
-            Console.ResetColor();
+            TicketHeader();
             Console.WriteLine("    Ticket successfully created!\n");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(ticketFormat, "Ticket #", "Summary", "Status", "Priorty", "Assigned To", "Created By", "Watching");
-            Console.WriteLine(ticketFormat, "------", "------------------------------------", "------", "------", "------------", "------------", "------------");
-            Console.ResetColor();
+            TicketHeader();
 
             var query = from t in ticket
                         join ua in user on t.GetAssignedID() equals ua.GetUserID()
                         join us in user on t.GetSubmitterID() equals us.GetUserID()
                         select new { tkt = t.GetTicketID(), tsum = t.GetSummary(), status = t.GetStatus(), priority = t.GetPriority(), assigned = ua.GetFName() + " " + ua.GetLName(), submitted = us.GetFName() + " " + us.GetLName(), watch = t.GetWatchingGrp() };
-
 
             foreach (var t in query)
             {
@@ -262,9 +237,8 @@ namespace Week1
                 }
                 if (t.tkt == max)
                 {
-                    Console.WriteLine(ticketFormat, t.tkt, tsummary, t.status, t.priority, t.assigned, t.submitted, t.watch);
+                    Console.WriteLine(TicketsFormat(), t.tkt, tsummary, t.status, t.priority, t.assigned, t.submitted, t.watch);
                 }
-                
             }
 
             Console.Write("\n    Press any Key to return to the Main Menu: ");
@@ -287,17 +261,9 @@ namespace Week1
 
         static List<Ticket> ViewTickets(List<Ticket> ticket, List<Users> user, List<WatchGrp> watchGroup)
         {
-            string ticketFormat = "    {0,-4}\t{1,-50}\t{2,-4}\t{3,-4}\t{4,-4}\t{5,-4}\t{6,-4}";
             string watchGrpFormat = "    \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{0,-4}";
-            string userFormat = "    {0,-4}\t{1,-15}\t{2,-15}";
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n    ---------------------------------------------------------------------------------------------\n" +
-                "    View Tickets\n" +
-                "    ---------------------------------------------------------------------------------------------\n");
-            Console.WriteLine(ticketFormat, "Ticket #", "Summary", "Status", "Priorty", "Assigned To", "Created By", "Watching");
-            Console.WriteLine(ticketFormat, "------", "------------------------------------", "------", "------", "------------", "------------", "------------");
-            Console.ResetColor();
+            TicketHeader();
 
             // Get a list of tickets with the user names
             var tktQuery = from t in ticket
@@ -339,9 +305,7 @@ namespace Week1
                     summary = t.tsum;
                 }
                 string watcher;
-
-
-                
+             
                 int watcherCount = 0;
                 List<string> watchers = new List<string>();
                 foreach (var u in wGrpQuery)
@@ -364,9 +328,7 @@ namespace Week1
                 {
                     watcher = watchers[0] + " +" + (watchers.Count - 1);
                 }
-
-                Console.WriteLine(ticketFormat, t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, watcher);
-
+                Console.WriteLine(TicketsFormat(), t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, watcher);
             }
 
             Console.Write("\n    What would you like to do?\n\n" +
@@ -399,13 +361,7 @@ namespace Week1
                 }
 
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("\n    ---------------------------------------------------------------------------------------------\n" +
-                    "    View Tickets\n" +
-                    "    ---------------------------------------------------------------------------------------------\n");
-                Console.WriteLine(ticketFormat, "Ticket #", "Summary", "Status", "Priorty", "Assigned To", "Created By", "Watching");
-                Console.WriteLine(ticketFormat, "------", "------------------------------------", "------", "------", "------------", "------------", "------------");
-                Console.ResetColor();
+                TicketHeader();
 
                 // Create list of user IDs for validation
                 List<int> userID = new List<int>();
@@ -430,7 +386,6 @@ namespace Week1
                             }
                         }
 
-
                         string summary;
                         string watcher;
                         if (t.tsum.Length > 50) // Limmit summary output to 50 charachters
@@ -450,13 +405,13 @@ namespace Week1
                         {
                             watcher = watchers[0]; // print the first user watching from the watcher list
                         }
-                        Console.WriteLine(ticketFormat, t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, watcher);
+                        Console.WriteLine(TicketsFormat(), t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, watcher); ;
                         wgID = t.wgID;
 
                     }
                     if (watcherCount > 1)
                     {
-                        foreach (var u in wGrpQuery.Skip(1)) //Skip the first watcher since we printed it above
+                        foreach (var u in wGrpQuery.Where(w=>w.wg==wgID).Skip(1)) //Skip the first watcher since we printed it above
                         {
                             if (t.tkt == tktID && t.wgID == u.wg)
                             {
@@ -502,17 +457,13 @@ namespace Week1
                         }
                     }
 
-
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(userFormat, "User ID", "First Name", "Last Name");
-                    Console.WriteLine(userFormat, "------", "-------------", "-------------");
-                    Console.ResetColor();
+                    UserHeader();
 
                     foreach (Users u in user)
                     {
                         if (u.GetUserID() != 0 && (!currentWatchingIDs.Contains(u.GetUserID())))
                         {
-                            Console.WriteLine(userFormat, u.GetUserID(), u.GetFName(), u.GetLName());
+                            Console.WriteLine(UsersFormat(), u.GetUserID(), u.GetFName(), u.GetLName());
                         }
                     }
                     Console.Write("\n    Enter User ID to add to Watch List: ");
@@ -543,15 +494,12 @@ namespace Week1
                 }
                 else if (userSelection == 2 && q == 3)
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(userFormat, "User ID", "First Name", "Last Name");
-                    Console.WriteLine(userFormat, "------", "-------------", "-------------");
-                    Console.ResetColor();
+                    UserHeader();
                     foreach (Users u in user)
                     {
                         if (u.GetUserID() != 0)
                         {
-                            Console.WriteLine(userFormat, u.GetUserID(), u.GetFName(), u.GetLName());
+                            Console.WriteLine(UsersFormat(), u.GetUserID(), u.GetFName(), u.GetLName());
                         }
                     }
                     Console.Write("\n    Enter User ID to remove from the Watch List: ");
@@ -578,6 +526,37 @@ namespace Week1
             return ticket;
         }
 
+        static void TicketHeader()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\n    ---------------------------------------------------------------------------------------------\n" +
+                "    View Tickets\n" +
+                "    ---------------------------------------------------------------------------------------------\n");
+            Console.WriteLine(TicketsFormat(), "Ticket #", "Summary", "Status", "Priorty", "Assigned To", "Created By", "Watching");
+            Console.WriteLine(TicketsFormat(), "------", "------------------------------------", "------", "------", "------------", "------------", "------------");
+            Console.ResetColor();
+        }
+
+        static string TicketsFormat()
+        {
+            string ticketFormat = "    {0,-4}\t{1,-50}\t{2,-4}\t{3,-4}\t{4,-4}\t{5,-4}\t{6,-4}";
+            return ticketFormat;
+        }
+
+
+        static void UserHeader()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(UsersFormat(), "User ID", "First Name", "Last Name");
+            Console.WriteLine(UsersFormat(), "------", "-------------", "-------------");
+            Console.ResetColor();
+        }
+
+        static string UsersFormat()
+        {
+            string userFormat = "    {0,-4}\t{1,-15}\t{2,-15}";
+            return userFormat;
+        }
 
         static List<Users> LoadUsers()
         {
@@ -603,13 +582,7 @@ namespace Week1
 
         static List<Users> CreateUser(List<Users> user)
         {
-            string userFormat = "    {0,-8}\t{1,-20}\t{2,-20}";
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n    ---------------------------------------------------------------------------------------------\n" +
-                "    Create User\n" +
-                "    ---------------------------------------------------------------------------------------------\n");
-            Console.ResetColor();
+            UserHeader();
 
             Console.Write("    Please enter the first name: ");
             String fname = Console.ReadLine();
@@ -646,15 +619,15 @@ namespace Week1
             Console.ResetColor();
             Console.WriteLine("    User successfully created!\n");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(userFormat, "User ID", "First Name", "Last Name");
-            Console.WriteLine(userFormat, "------", "------------------", "------------------");
+            Console.WriteLine(UsersFormat(), "User ID", "First Name", "Last Name");
+            Console.WriteLine(UsersFormat(), "------", "------------------", "------------------");
             Console.ResetColor();
 
             foreach (Users u in user)
             {
                 if (u.GetUserID() == max)
                 {
-                    Console.WriteLine(userFormat, u.GetUserID(), u.GetFName(), u.GetLName());
+                    Console.WriteLine(UsersFormat(), u.GetUserID(), u.GetFName(), u.GetLName());
                 }
             }
 
@@ -701,9 +674,7 @@ namespace Week1
             Console.Clear();
             return user;
         }
-
-
-
+               
         static List<WatchGrp> LoadWatchGroups()
         {
             string file = "WatchGroups.txt";
@@ -726,8 +697,7 @@ namespace Week1
             return Wg;
         }
 
-
-
+        
         static List<WatchGrp> CreateWatchGrp2(List<WatchGrp> watchGrp)
         {
             string watchGrpFormat = "    {0,-8}\t{1,-20}";
