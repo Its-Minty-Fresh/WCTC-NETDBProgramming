@@ -263,7 +263,13 @@ namespace Week1
         {
             string watchGrpFormat = "    \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{0,-4}";
 
-            TicketHeader();
+            //TicketHeader();
+            Format getTicketHeader = new Format();
+            Format getTicketFormat = new Format();
+
+
+
+            getTicketHeader.GetTicketHeader();
 
             // Get a list of tickets with the user names
             var tktQuery = from t in ticket
@@ -279,7 +285,6 @@ namespace Week1
                                submitted = us.GetFName() + " " + us.GetLName(),
                                wgID = t.GetWatchingGrp()
                            };
-
 
             var wGrpQuery = from t in ticket
                             join wg in watchGroup on t.GetWatchingGrp() equals wg.GetWatchGrpID()
@@ -328,7 +333,7 @@ namespace Week1
                 {
                     watcher = watchers[0] + " +" + (watchers.Count - 1);
                 }
-                Console.WriteLine(TicketsFormat(), t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, watcher);
+                Console.WriteLine(getTicketFormat.GetTicketsFormat(), t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, watcher);
             }
 
             Console.Write("\n    What would you like to do?\n\n" +
