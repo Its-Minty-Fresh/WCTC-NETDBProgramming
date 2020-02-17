@@ -34,8 +34,14 @@ namespace Week1
                 {
                     Console.Clear();
                     TicketList = ViewTickets(TicketList, UserList, WatchGroups);
-                    SaveWatchGrp(WatchGroups);
-                    SaveTicket(TicketList);
+                    if (selection == 1)
+                    {
+                        ViewTicketAddWG(TicketList, UserList, WatchGroups);
+                        SaveWatchGrp(WatchGroups);
+                        SaveTicket(TicketList);
+                    }
+
+
                 }
                 if (selection == 2)
                 {
@@ -116,7 +122,10 @@ namespace Week1
 
         static List<Ticket> CreateTicket(List<Ticket> ticket, List<Users> user)
         {
-            TicketsFormat();
+            Format getTicketHeader = new Format();
+            Format getTicketsFormat = new Format();
+
+            getTicketsFormat.GetTicketsFormat();
 
             UserHeader();
 
@@ -215,9 +224,9 @@ namespace Week1
             Ticket newTicket = new Ticket(max, summary, "Open", pri, createdByID, assignedToID, 0);
             ticket.Add(newTicket);
 
-            TicketHeader();
+            getTicketHeader.GetTicketHeader();
             Console.WriteLine("    Ticket successfully created!\n");
-            TicketHeader();
+            getTicketHeader.GetTicketHeader();
 
             var query = from t in ticket
                         join ua in user on t.GetAssignedID() equals ua.GetUserID()
@@ -237,7 +246,7 @@ namespace Week1
                 }
                 if (t.tkt == max)
                 {
-                    Console.WriteLine(TicketsFormat(), t.tkt, tsummary, t.status, t.priority, t.assigned, t.submitted, t.watch);
+                    Console.WriteLine(getTicketsFormat.GetTicketsFormat(), t.tkt, tsummary, t.status, t.priority, t.assigned, t.submitted, t.watch);
                 }
             }
 
@@ -261,12 +270,13 @@ namespace Week1
 
         static List<Ticket> ViewTickets(List<Ticket> ticket, List<Users> user, List<WatchGrp> watchGroup)
         {
-            string watchGrpFormat = "    \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{0,-4}";
-
+            
             //TicketHeader();
             Format getTicketHeader = new Format();
             Format getTicketFormat = new Format();
+            Format getWGformat = new Format();
 
+           // GetTicketList();
 
 
             getTicketHeader.GetTicketHeader();
@@ -341,211 +351,312 @@ namespace Week1
                 "    2: Return to Main Menu\n");
             
             Console.Write("    ");
-            int userSelection = validateInt(Console.ReadLine());
-            while ((userSelection < 0 || userSelection > 2))
+            int Selection = validateInt(Console.ReadLine());
+            while ((Selection < 0 || Selection > 2))
             {
                 Console.Write("    Please Enter a valid response 1 - 2 ");
-                userSelection = validateInt(Console.ReadLine());
-            }
-
-            if(userSelection == 1)
-            {
-                // Create list of ticket IDs for validation
-                List<int> ticketID = new List<int>();
-                foreach (Ticket t in ticket)
-                {
-                    ticketID.Add(t.GetTicketID());
-                }
-
-                Console.Write("    Enter Ticket # to view: ");
-                int tktID = validateInt(Console.ReadLine());
-                while (!ticketID.Contains(tktID))
-                {
-                    Console.Write("    Please select a valid Ticket #: ");
-                    tktID = validateInt(Console.ReadLine());
-                }
-
-                Console.Clear();
-                TicketHeader();
-
-                // Create list of user IDs for validation
-                List<int> userID = new List<int>();
-                foreach (Users u in user)
-                {
-                    userID.Add(u.GetUserID());
-                }
-
-                int wgID = 0;
-                int watcherCount = 0;
-                List<string> watchers = new List<string>();
-                foreach (var t in tktQuery)
-                {
-                    if (t.tkt == tktID)
-                    {
-                        foreach (var u in wGrpQuery)
-                        {
-                            if (t.wgID == u.wg && u.tkt == tktID)
-                            {
-                                watchers.Add(u.watcher);
-                                watcherCount = watchers.Count;
-                            }
-                        }
-
-                        string summary;
-                        string watcher;
-                        if (t.tsum.Length > 50) // Limmit summary output to 50 charachters
-                        {
-                            summary = t.tsum.Remove(50);
-                        }
-                        else
-                        {
-                            summary = t.tsum;
-                        }
-
-                        if (t.wgID == 0)
-                        {
-                            watcher = ""; // no one watching
-                        }
-                        else
-                        {
-                            watcher = watchers[0]; // print the first user watching from the watcher list
-                        }
-                        Console.WriteLine(TicketsFormat(), t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, watcher); ;
-                        wgID = t.wgID;
-
-                    }
-                    if (watcherCount > 1)
-                    {
-                        foreach (var u in wGrpQuery.Where(w=>w.wg==wgID).Skip(1)) //Skip the first watcher since we printed it above
-                        {
-                            if (t.tkt == tktID && t.wgID == u.wg)
-                            {
-                                Console.WriteLine(watchGrpFormat, u.watcher);
-                            }
-                        }
-                    }
-
-                }
-                int q = 0;
-                if (watcherCount > 1)
-                {
-                    Console.Write("\n    What would you like to do?\n\n" +
-                    "    1: Add Watchers\n" +
-                    "    2: Remove Watchers\n" +
-                    "    3: Return to Main Menu");
-                    q = 3;
-                }
-                else
-                {
-                    Console.Write("\n    What would you like to do?\n\n" +
-                    "    1: Add Watchers\n" +
-                    "    2: Return to Main Menu\n");
-                    q = 2;
-                }
-
-
-                Console.Write("    ");
-                userSelection = validateInt(Console.ReadLine());
-                while ((userSelection < 0 || userSelection > q))
-                {
-                    Console.Write("    Please Enter a valid response 1 - " + q);
-                    userSelection = validateInt(Console.ReadLine());
-                }
-                if(userSelection == 1)
-                {
-                    List<int> currentWatchingIDs = new List<int>();
-                    foreach(var u in wGrpQuery)
-                    {
-                        if (wgID == u.wg)
-                        {
-                            currentWatchingIDs.Add(u.userID);
-                        }
-                    }
-
-                    UserHeader();
-
-                    foreach (Users u in user)
-                    {
-                        if (u.GetUserID() != 0 && (!currentWatchingIDs.Contains(u.GetUserID())))
-                        {
-                            Console.WriteLine(UsersFormat(), u.GetUserID(), u.GetFName(), u.GetLName());
-                        }
-                    }
-                    Console.Write("\n    Enter User ID to add to Watch List: ");
-                    int resp = validateInt(Console.ReadLine());
-
-                    do
-                    {
-                        if (!userID.Contains(resp))
-                        {
-                            Console.Write("    Please select a valid User ID! ");
-                            resp = validateInt(Console.ReadLine());
-                        }
-                        if (currentWatchingIDs.Contains(resp))
-                        {
-                            Console.Write("    This user is already watching this ticket. Please select another user ID: ");
-                            resp = validateInt(Console.ReadLine());
-                        }
-                    } while ((!userID.Contains(resp)) || (currentWatchingIDs.Contains(resp)));
-
-
-                    WatchGrp newwg = new WatchGrp(wgID, resp);
-                    watchGroup.Add(newwg);
-
-                    Console.Write("\n    User Succesfully added as a watcher! ");
-                    Console.Write("\n    Press any Key to return to the Main Menu: ");
-                    Console.ReadKey();
-                    Console.Clear();
-                }
-                else if (userSelection == 2 && q == 3)
-                {
-                    UserHeader();
-                    foreach (Users u in user)
-                    {
-                        if (u.GetUserID() != 0)
-                        {
-                            Console.WriteLine(UsersFormat(), u.GetUserID(), u.GetFName(), u.GetLName());
-                        }
-                    }
-                    Console.Write("\n    Enter User ID to remove from the Watch List: ");
-                    int resp = validateInt(Console.ReadLine());
-                    while (!userID.Contains(resp))
-                    {
-                        Console.Write("    Please select a valid User ID! ");
-                        resp = validateInt(Console.ReadLine());
-                    }
-
-                    Console.Write("\n    User Succesfully added as a watcher! ");
-                    Console.Write("\n    Press any Key to return to the Main Menu: ");
-                    Console.ReadKey();
-
-                    WatchGrp newwg = new WatchGrp(wgID, resp);
-                    watchGroup.Remove(newwg);
-                    SaveWatchGrp(watchGroup);
-                }
-               
-
+                Selection = validateInt(Console.ReadLine());
             }
 
             Console.Clear();
             return ticket;
+
+            //if(Selection == 1)
+            //{
+            //    // Create list of ticket IDs for validation
+            //    List<int> ticketID = new List<int>();
+            //    foreach (Ticket t in ticket)
+            //    {
+            //        ticketID.Add(t.GetTicketID());
+            //    }
+
+            //    Console.Write("    Enter Ticket # to view: ");
+            //    int tktID = validateInt(Console.ReadLine());
+            //    while (!ticketID.Contains(tktID))
+            //    {
+            //        Console.Write("    Please select a valid Ticket #: ");
+            //        tktID = validateInt(Console.ReadLine());
+            //    }
+
+            //    Console.Clear();
+            //    getTicketHeader.GetTicketHeader();
+
+            //    // Create list of user IDs for validation
+            //    List<int> userID = new List<int>();
+            //    foreach (Users u in user)
+            //    {
+            //        userID.Add(u.GetUserID());
+            //    }
+
+            //    int wgID = 0;
+            //    int watcherCount = 0;
+            //    List<string> watchers = new List<string>();
+            //    foreach (var t in tktQuery)
+            //    {
+            //        if (t.tkt == tktID)
+            //        {
+            //            foreach (var u in wGrpQuery)
+            //            {
+            //                if (t.wgID == u.wg && u.tkt == tktID)
+            //                {
+            //                    watchers.Add(u.watcher);
+            //                    watcherCount = watchers.Count;
+            //                }
+            //            }
+
+            //            string summary;
+            //            string watcher;
+            //            if (t.tsum.Length > 50) // Limmit summary output to 50 charachters
+            //            {
+            //                summary = t.tsum.Remove(50);
+            //            }
+            //            else
+            //            {
+            //                summary = t.tsum;
+            //            }
+
+            //            if (t.wgID == 0)
+            //            {
+            //                watcher = ""; // no one watching
+            //            }
+            //            else
+            //            {
+            //                watcher = watchers[0]; // print the first user watching from the watcher list
+            //            }
+            //            Console.WriteLine(TicketsFormat(), t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, watcher); ;
+            //            wgID = t.wgID;
+
+            //        }
+            //        if (watcherCount > 1)
+            //        {
+            //            foreach (var u in wGrpQuery.Where(w=>w.wg==wgID).Skip(1)) //Skip the first watcher since we printed it above
+            //            {
+            //                if (t.tkt == tktID && t.wgID == u.wg)
+            //                {
+            //                    Console.WriteLine(getWGformat.GetWGFormat(), u.watcher);
+            //                }
+            //            }
+            //        }
+
+            //    }
+            //    int q = 0;
+            //    if (watcherCount > 1)
+            //    {
+            //        Console.Write("\n    What would you like to do?\n\n" +
+            //        "    1: Add Watchers\n" +
+            //        "    2: Remove Watchers\n" +
+            //        "    3: Return to Main Menu");
+            //        q = 3;
+            //    }
+            //    else
+            //    {
+            //        Console.Write("\n    What would you like to do?\n\n" +
+            //        "    1: Add Watchers\n" +
+            //        "    2: Return to Main Menu\n");
+            //        q = 2;
+            //    }
+
+
+            //    Console.Write("    ");
+            //    Selection = validateInt(Console.ReadLine());
+            //    while ((Selection < 0 || Selection > q))
+            //    {
+            //        Console.Write("    Please Enter a valid response 1 - " + q);
+            //        Selection = validateInt(Console.ReadLine());
+            //    }
+            //    if(Selection == 1)
+            //    {
+            //        List<int> currentWatchingIDs = new List<int>();
+            //        foreach(var u in wGrpQuery)
+            //        {
+            //            if (wgID == u.wg)
+            //            {
+            //                currentWatchingIDs.Add(u.userID);
+            //            }
+            //        }
+
+            //        UserHeader();
+
+            //        foreach (Users u in user)
+            //        {
+            //            if (u.GetUserID() != 0 && (!currentWatchingIDs.Contains(u.GetUserID())))
+            //            {
+            //                Console.WriteLine(UsersFormat(), u.GetUserID(), u.GetFName(), u.GetLName());
+            //            }
+            //        }
+            //        Console.Write("\n    Enter User ID to add to Watch List: ");
+            //        int resp = validateInt(Console.ReadLine());
+
+            //        do
+            //        {
+            //            if (!userID.Contains(resp))
+            //            {
+            //                Console.Write("    Please select a valid User ID! ");
+            //                resp = validateInt(Console.ReadLine());
+            //            }
+            //            if (currentWatchingIDs.Contains(resp))
+            //            {
+            //                Console.Write("    This user is already watching this ticket. Please select another user ID: ");
+            //                resp = validateInt(Console.ReadLine());
+            //            }
+            //        } while ((!userID.Contains(resp)) || (currentWatchingIDs.Contains(resp)));
+
+
+            //        WatchGrp newwg = new WatchGrp(wgID, resp);
+            //        watchGroup.Add(newwg);
+
+            //        Console.Write("\n    User Succesfully added as a watcher! ");
+            //        Console.Write("\n    Press any Key to return to the Main Menu: ");
+            //        Console.ReadKey();
+            //        Console.Clear();
+            //    }
+            //    else if (Selection == 2 && q == 3)
+            //    {
+            //        UserHeader();
+            //        foreach (Users u in user)
+            //        {
+            //            if (u.GetUserID() != 0)
+            //            {
+            //                Console.WriteLine(UsersFormat(), u.GetUserID(), u.GetFName(), u.GetLName());
+            //            }
+            //        }
+            //        Console.Write("\n    Enter User ID to remove from the Watch List: ");
+            //        int resp = validateInt(Console.ReadLine());
+            //        while (!userID.Contains(resp))
+            //        {
+            //            Console.Write("    Please select a valid User ID! ");
+            //            resp = validateInt(Console.ReadLine());
+            //        }
+
+            //        Console.Write("\n    User Succesfully added as a watcher! ");
+            //        Console.Write("\n    Press any Key to return to the Main Menu: ");
+            //        Console.ReadKey();
+
+            //        WatchGrp newwg = new WatchGrp(wgID, resp);
+            //        watchGroup.Remove(newwg);
+            //        SaveWatchGrp(watchGroup);
+            //    }
+
+
+            //}
+
+
         }
 
-        static void TicketHeader()
+        static List<Ticket> ViewTicketAddWG(List<Ticket> ticket, List<Users> user, List<WatchGrp> watchGroup)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n    ---------------------------------------------------------------------------------------------\n" +
-                "    View Tickets\n" +
-                "    ---------------------------------------------------------------------------------------------\n");
-            Console.WriteLine(TicketsFormat(), "Ticket #", "Summary", "Status", "Priorty", "Assigned To", "Created By", "Watching");
-            Console.WriteLine(TicketsFormat(), "------", "------------------------------------", "------", "------", "------------", "------------", "------------");
-            Console.ResetColor();
-        }
+            Format getWGformat = new Format();
+            Format getTicketFormat = new Format();
+            Format getTicketHeader = new Format();
 
-        static string TicketsFormat()
-        {
-            string ticketFormat = "    {0,-4}\t{1,-50}\t{2,-4}\t{3,-4}\t{4,-4}\t{5,-4}\t{6,-4}";
-            return ticketFormat;
+          
+            // Get a list of tickets with the user names
+            var tktQuery = from t in ticket
+                           join ua in user on t.GetAssignedID() equals ua.GetUserID()
+                           join us in user on t.GetSubmitterID() equals us.GetUserID()
+                           select new
+                           {
+                               tkt = t.GetTicketID(),
+                               tsum = t.GetSummary(),
+                               status = t.GetStatus(),
+                               priority = t.GetPriority(),
+                               assigned = ua.GetFName() + " " + ua.GetLName(),
+                               submitted = us.GetFName() + " " + us.GetLName(),
+                               wgID = t.GetWatchingGrp()
+                           };
+
+            var wGrpQuery = from t in ticket
+                            join wg in watchGroup on t.GetWatchingGrp() equals wg.GetWatchGrpID()
+                            join uw in user on wg.GetUserID() equals uw.GetUserID()
+                            // where t.GetWatchingGrp() != 0
+                            select new
+                            {
+                                tkt = t.GetTicketID(),
+                                userID = wg.GetUserID(),
+                                watcher = uw.GetFName() + " " + uw.GetLName(),
+                                wg = wg.GetWatchGrpID()
+                            };
+
+
+
+   
+            Console.WriteLine("where iun the new one");
+
+            // Create list of ticket IDs for validation
+            List<int> ticketID = new List<int>();
+            foreach (Ticket t in ticket)
+            {
+                ticketID.Add(t.GetTicketID());
+            }
+
+            Console.Write("    Enter Ticket # to view: ");
+            int tktID = validateInt(Console.ReadLine());
+            while (!ticketID.Contains(tktID))
+            {
+                Console.Write("    Please select a valid Ticket #: ");
+                tktID = validateInt(Console.ReadLine());
+            }
+
+            Console.Clear();
+            getTicketHeader.GetTicketHeader();
+            // Create list of user IDs for validation
+            List<int> userID = new List<int>();
+            foreach (Users u in user)
+            {
+                userID.Add(u.GetUserID());
+            }
+
+            int wgID = 0;
+            int watcherCount = 0;
+            List<string> watchers = new List<string>();
+            foreach (var t in tktQuery)
+            {
+                if (t.tkt == tktID)
+                {
+                    foreach (var u in wGrpQuery)
+                    {
+                        if (t.wgID == u.wg && u.tkt == tktID)
+                        {
+                            watchers.Add(u.watcher);
+                            watcherCount = watchers.Count;
+                        }
+                    }
+
+                    string summary;
+                    string watcher;
+                    if (t.tsum.Length > 50) // Limmit summary output to 50 charachters
+                    {
+                        summary = t.tsum.Remove(50);
+                    }
+                    else
+                    {
+                        summary = t.tsum;
+                    }
+
+                    if (t.wgID == 0)
+                    {
+                        watcher = ""; // no one watching
+                    }
+                    else
+                    {
+                        watcher = watchers[0]; // print the first user watching from the watcher list
+                    }
+                    Console.WriteLine(getTicketFormat.GetTicketsFormat(), t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, watcher); ;
+                    wgID = t.wgID;
+
+                }
+                if (watcherCount > 1)
+                {
+                    foreach (var u in wGrpQuery.Where(w => w.wg == wgID).Skip(1)) //Skip the first watcher since we printed it above
+                    {
+                        if (t.tkt == tktID && t.wgID == u.wg)
+                        {
+                            Console.WriteLine(getWGformat.GetWGFormat(), u.watcher);
+                        }
+                    }
+                }
+            }
+            return ticket;
         }
 
 
@@ -814,6 +925,76 @@ namespace Week1
             ul.Close();
         }
 
+        static void GetTicketList(List<Ticket> ticket, List<Users> user, List<WatchGrp> watchGroup)
+        {
+            Format getTicketFormat = new Format();
+
+            // Get a list of tickets with the user names
+            var tktQuery = from t in ticket
+                           join ua in user on t.GetAssignedID() equals ua.GetUserID()
+                           join us in user on t.GetSubmitterID() equals us.GetUserID()
+                           select new
+                           {
+                               tkt = t.GetTicketID(),
+                               tsum = t.GetSummary(),
+                               status = t.GetStatus(),
+                               priority = t.GetPriority(),
+                               assigned = ua.GetFName() + " " + ua.GetLName(),
+                               submitted = us.GetFName() + " " + us.GetLName(),
+                               wgID = t.GetWatchingGrp()
+                           };
+
+            var wGrpQuery = from t in ticket
+                            join wg in watchGroup on t.GetWatchingGrp() equals wg.GetWatchGrpID()
+                            join uw in user on wg.GetUserID() equals uw.GetUserID()
+                            // where t.GetWatchingGrp() != 0
+                            select new
+                            {
+                                tkt = t.GetTicketID(),
+                                userID = wg.GetUserID(),
+                                watcher = uw.GetFName() + " " + uw.GetLName(),
+                                wg = wg.GetWatchGrpID()
+                            };
+
+            
+            foreach (var t in tktQuery)
+            {
+                string summary;
+                if (t.tsum.Length > 50) // Limit summary output to 50 charachters
+                {
+                    summary = t.tsum.Remove(50);
+                }
+                else
+                {
+                    summary = t.tsum;
+                }
+                string watcher;
+
+                int watcherCount = 0;
+                List<string> watchers = new List<string>();
+                foreach (var u in wGrpQuery)
+                {
+                    if (t.wgID == u.wg)
+                    {
+                        watchers.Add(u.watcher);
+                        watcherCount = watchers.Count;
+                    }
+                }
+                if (t.wgID == 0)
+                {
+                    watcher = "";
+                }
+                else if (watcherCount == 1)
+                {
+                    watcher = watchers[0];
+                }
+                else
+                {
+                    watcher = watchers[0] + " +" + (watchers.Count - 1);
+                }
+                 Console.WriteLine(getTicketFormat.GetTicketsFormat(), t.tkt, summary, t.status, t.priority, t.assigned, t.submitted, watcher);
+            }
+        }
 
         static public int validateInt(string input)
         {

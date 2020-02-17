@@ -14,6 +14,12 @@ namespace Week1
             
         }
 
+        public string GetWGFormat()
+        {
+            return "    \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{0,-4}";
+
+        }
+
 
         public void GetTicketHeader()
         {
@@ -25,5 +31,8 @@ namespace Week1
             Console.WriteLine(GetTicketsFormat(), "------", "------------------------------------", "------", "------", "------------", "------------", "------------");
             Console.ResetColor();
         }
+
+
+
     }
 }
