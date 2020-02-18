@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{44C1AE2E-0675-452D-ADBB-5780BE0EFAA9}</ProjectGuid>
+    <ProjectGuid>{D5A97BBF-C903-4ED4-AC0F-3B2E7BDC2069}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MovieApp</RootNamespace>
-    <AssemblyName>MovieApp</AssemblyName>
+    <RootNamespace>TicketApp2._0</RootNamespace>
+    <AssemblyName>TicketApp2.0</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,19 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Album.cs" />
-    <Compile Include="Models\Book.cs" />
-    <Compile Include="Models\MainMenu.cs" />
-    <Compile Include="Models\Media.cs" />
-    <Compile Include="Models\Movie.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Files\movies.csv" />
-    <None Include="Files\movies_Master.csv" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Files\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
