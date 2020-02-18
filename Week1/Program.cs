@@ -95,7 +95,8 @@ namespace Week1
 
         static List<Ticket> LoadTickets()
         {
-            string file = "Tickets.txt";
+            string file = "tickets.txt";
+            string file2 = Path.Combine(Environment.CurrentDirectory, "Files", "tickets.txt");
             List<Ticket> Tks = new List<Ticket>();
             if (File.Exists(file))
             {

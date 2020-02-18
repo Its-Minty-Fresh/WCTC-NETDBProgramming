@@ -10,6 +10,7 @@ namespace MovieApp
     {
         static void Main(string[] args)
         {
+            var mainMenu = new MainMenu();
         }
     }
 }
