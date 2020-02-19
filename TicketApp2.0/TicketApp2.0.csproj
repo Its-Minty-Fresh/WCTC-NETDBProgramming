@@ -43,15 +43,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\FileMgmt.cs" />
+    <Compile Include="Models\Format.cs" />
+    <Compile Include="Models\MainMenu.cs" />
+    <Compile Include="Models\Record.cs" />
+    <Compile Include="Models\Tickets.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Files\" />
-    <Folder Include="Models\" />
+    <Content Include="Files\Tickets.txt" />
+    <Content Include="Files\Users.txt" />
+    <Content Include="Files\WatchGroups.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
