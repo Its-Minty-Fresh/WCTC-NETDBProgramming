@@ -10,6 +10,7 @@ namespace TicketApp2._0.Files
 {
     class FileMgmt
     {
-
+        //public List<Tickets> Contents { get; }
+        //private readonly string _filename = Path.Combine(Environment.CurrentDirectory, "Files", "tickets.txt");
     }
 }

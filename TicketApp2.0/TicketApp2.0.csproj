@@ -47,7 +47,10 @@
     <Compile Include="Models\Format.cs" />
     <Compile Include="Models\MainMenu.cs" />
     <Compile Include="Models\Record.cs" />
+    <Compile Include="Models\Test.cs" />
     <Compile Include="Models\Tickets.cs" />
+    <Compile Include="Models\Users.cs" />
+    <Compile Include="Models\WatchGrp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
