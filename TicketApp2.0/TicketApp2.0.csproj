@@ -48,6 +48,8 @@
     <Compile Include="Models\MainMenu.cs" />
     <Compile Include="Models\Record.cs" />
     <Compile Include="Models\Test.cs" />
+    <Compile Include="Models\TestFileMgmt.cs" />
+    <Compile Include="Models\TestManager.cs" />
     <Compile Include="Models\Tickets.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Models\WatchGrp.cs" />
@@ -59,6 +61,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Files\Test.txt" />
     <Content Include="Files\Tickets.txt" />
     <Content Include="Files\Users.txt" />
     <Content Include="Files\WatchGroups.txt" />

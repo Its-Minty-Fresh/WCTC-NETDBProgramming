@@ -9,9 +9,9 @@ namespace TicketApp2._0.Models
     class Test
     {
 
-        private int TestID { get; set; }
-        private string FName { get; set; }
-        private string LName { get; set; }
+        public int TestID { get; set; }
+        public string FName { get; set; }
+        public string LName { get; set; }
 
         // user constructor 1
         public Test()
@@ -24,9 +24,9 @@ namespace TicketApp2._0.Models
         // user constructor 2
         public Test(int userID, string fName, string lName)
         {
-            this.TestID = userID;
-            this.FName = fName;
-            this.LName = lName;
+            TestID = userID;
+            FName = fName;
+            LName = lName;
         }
 
         public void SetUserID(int userID)
