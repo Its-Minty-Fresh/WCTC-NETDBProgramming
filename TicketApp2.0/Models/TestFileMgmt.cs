@@ -9,7 +9,7 @@ namespace TicketApp2._0.Models
     class TestFileMgmt
     {
         public List<Test> Contents { get; }
-        private readonly string _filename = Path.Combine(Environment.CurrentDirectory, "Files", "Test.txt");
+        private readonly string _filename = Path.Combine(Environment.CurrentDirectory, "Files", "Test");
 
         public TestFileMgmt()
         {

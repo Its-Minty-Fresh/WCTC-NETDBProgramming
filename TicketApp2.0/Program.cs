@@ -17,12 +17,11 @@ namespace TicketApp2._0
             while (selection == 1)
             {
                 Format format = new Format();
-                Tickets tickets = new Tickets();
+                TestManager testManager = new TestManager();
 
                 Console.Clear();
                 format.ViewTicketHeader();
-                tickets.ViewTickets();
-
+                testManager.Process(selection);
 
 
 
