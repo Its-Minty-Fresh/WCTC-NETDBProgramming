@@ -170,19 +170,10 @@ namespace TicketApp2._0
        
         public void ViewTickets()
         {
-
-
-            //List<Tickets> TicketList = LoadTickets();
-            //List<WatchGrp> WatchGroups = LoadWatchGroups();
-
             List<Tickets> ticket = new List<Tickets>();
             List<Users> user = new List<Users>();
             List<WatchGrp> watchGroup = new List<WatchGrp>();
 
-
-
-
-            //TicketHeader();
             Format getTicketHeader = new Format();
             Format getTicketFormat = new Format();
             Format getWGformat = new Format();

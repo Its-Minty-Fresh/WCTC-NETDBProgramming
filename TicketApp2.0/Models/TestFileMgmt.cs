@@ -9,7 +9,7 @@ namespace TicketApp2._0.Models
     class TestFileMgmt
     {
         public List<Test> Contents { get; }
-        private readonly string _filename = Path.Combine(Environment.CurrentDirectory, "Files", "Test");
+        private readonly string _filename = Path.Combine(Environment.CurrentDirectory, "Files", "test.txt");
 
         public TestFileMgmt()
         {
@@ -30,7 +30,7 @@ namespace TicketApp2._0.Models
 
         private List<Test> ReadTest()
         {
-            List<Test> tickets = new List<Test>();
+            List<Test> test = new List<Test>();
             string[] lines = File.ReadAllLines(_filename);
 
             foreach (var line in lines)
@@ -38,10 +38,10 @@ namespace TicketApp2._0.Models
                 int id = Int32.Parse(line.Split(',')[0]);
                 string fname = line.Split(',')[1];
                 string lname = line.Split(',')[2];
-                tickets.Add(new Test() { TestID = id, FName = fname, LName = lname });
+                test.Add(new Test() { TestID = id, FName = fname, LName = lname });
             }
 
-            return tickets;
+            return test;
         }
 
         public void WriteTest(Test test)
