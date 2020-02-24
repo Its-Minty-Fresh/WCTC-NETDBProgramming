@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.IO;
 using TicketApp2._0.Models;
 
 namespace TicketApp2._0
@@ -11,58 +8,37 @@ namespace TicketApp2._0
     {
         static void Main(string[] args)
         {
-            var mainMenu = new MainMenu();
-            int selection = mainMenu.GetMainMenuSelection();
+            var menu = new MainMenu();
+            var format = new Format();
+            int selection = 0;
 
-            while (selection == 1)
+            do
             {
-                Format format = new Format();
-                TestManager testManager = new TestManager();
-
-                Console.Clear();
-                format.ViewTicketHeader();
-                testManager.Process(selection);
-
-
-
-
-
-
-
+                menu.ViewMainMenu();
+                selection  = menu.GetMainMenuInpput();
                 Console.ReadLine();
-            }
-
-            Console.WriteLine(selection);
-            Console.ReadLine();
-        }
-
-
-        static List<Tickets> LoadTickets()
-        {
-            string file = "Tickets.txt";
-            List<Tickets> Tks = new List<Tickets>();
-            if (File.Exists(file))
-            {
-                StreamReader TicketReader = new StreamReader(file);
-                while (!TicketReader.EndOfStream)
+                if (selection == 1)
                 {
-                    string ticketRecord = TicketReader.ReadLine();
-                    string[] ticketAttributes = ticketRecord.Split(',');
-                    int ticketID = Int32.Parse(ticketAttributes[0]);
-                    string summary = ticketAttributes[1];
-                    int status = Int32.Parse(ticketAttributes[2]);
-                    string priority = ticketAttributes[3];
-                    int submitterID = Int32.Parse(ticketAttributes[4]);
-                    int assignedID = Int32.Parse(ticketAttributes[5]);
-                    int watchingGrp = Int32.Parse(ticketAttributes[6]);
-                    int severity = Int32.Parse(ticketAttributes[7]);
-
-                    Tickets tickets = new Tickets(ticketID, summary, status, priority, submitterID, assignedID, watchingGrp, severity);
-                    Tks.Add(tickets);
+                    TicketManager ticketManager = new TicketManager();
+                    Console.Clear();
+                    format.ViewTicketHeader();
+                    ticketManager.Process(selection);
+                    Console.WriteLine("View Tickets");
+                    Console.ReadLine();
                 }
-                TicketReader.Close();
-            }
-            return Tks;
+                else if (selection == 2)
+                {
+                    Console.WriteLine("View Enhancements");
+                    Console.ReadLine();
+                }
+                else if (selection == 3)
+                {
+                    Console.WriteLine("View Task");
+                    Console.ReadLine();
+                }
+
+            } while (selection != 4);
+
         }
     }
 }
