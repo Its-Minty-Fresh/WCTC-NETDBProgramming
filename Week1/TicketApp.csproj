@@ -55,12 +55,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Debug\Tickets.txt" />
+    <Content Include="bin\Debug\Users.txt" />
+    <Content Include="bin\Debug\WatchGroups.txt" />
     <Content Include="Files\Tickets.txt" />
     <Content Include="Files\Users.txt" />
     <Content Include="Files\WatchGroups.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\Debug\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
