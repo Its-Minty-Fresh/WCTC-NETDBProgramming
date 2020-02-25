@@ -8,7 +8,7 @@ namespace TicketApp2._0.Models
 {
     public class TicketFile
     {
-        public List<Ticket> Contents { get; }
+        public List<Tickets> Contents { get; }
         private readonly string _filename = Path.Combine(Environment.CurrentDirectory, "Files", "tickets.txt");
 
         public TicketFile()
@@ -28,51 +28,49 @@ namespace TicketApp2._0.Models
             return false;
         }
 
-        private List<Ticket> ReadFile()
+        private List<Tickets> ReadFile()
         {
-            List<Ticket> tickets = new List<Ticket>();
+            List<Tickets> tickets = new List<Tickets>();
             string[] lines = File.ReadAllLines(_filename);
 
             foreach (var line in lines) 
             {
                 var id = line.Split(',')[0];
                 var name = line.Split(',')[1];
-                tickets.Add(new Ticket() { Id = id, Name = name });
+                tickets.Add(new Tickets() { Id = id, Name = name });
             }
 
             return tickets;
         }
 
+        //static List<Ticket> LoadTickets()
+        //{
+        //    string file = "tickets.txt";
+        //    List<Ticket> Tks = new List<Ticket>();
+        //    if (File.Exists(file))
+        //    {
+        //        StreamReader TicketReader = new StreamReader(file);
+        //        while (!TicketReader.EndOfStream)
+        //        {
+        //            string ticketRecord = TicketReader.ReadLine();
+        //            string[] ticketAttributes = ticketRecord.Split(',');
+        //            int ticketID = Int32.Parse(ticketAttributes[0]);
+        //            string name = ticketAttributes[1];
+        //            //string status = ticketAttributes[2];
+        //            //string priority = ticketAttributes[3];
+        //            //int submitterID = Int32.Parse(ticketAttributes[4]);
+        //            //int assignedID = Int32.Parse(ticketAttributes[5]);
+        //            //int watchingGrp = Int32.Parse(ticketAttributes[6]);
+        //            //Ticket tickets = new Ticket(ticketID, summary, status, priority, submitterID, assignedID, watchingGrp);
+        //            Ticket tickets = new Ticket(ticketID, name);
+        //            Tks.Add(tickets);
+        //        }
+        //        TicketReader.Close();
+        //    }
+        //    return Tks;
+        //}
 
-        static List<Ticket> LoadTickets()
-        {
-            string file = "tickets.txt";
-            List<Ticket> Tks = new List<Ticket>();
-            if (File.Exists(file))
-            {
-                StreamReader TicketReader = new StreamReader(file);
-                while (!TicketReader.EndOfStream)
-                {
-                    string ticketRecord = TicketReader.ReadLine();
-                    string[] ticketAttributes = ticketRecord.Split(',');
-                    int ticketID = Int32.Parse(ticketAttributes[0]);
-                    string name = ticketAttributes[1];
-                    //string status = ticketAttributes[2];
-                    //string priority = ticketAttributes[3];
-                    //int submitterID = Int32.Parse(ticketAttributes[4]);
-                    //int assignedID = Int32.Parse(ticketAttributes[5]);
-                    //int watchingGrp = Int32.Parse(ticketAttributes[6]);
-
-                    //Ticket tickets = new Ticket(ticketID, summary, status, priority, submitterID, assignedID, watchingGrp);
-                    Ticket tickets = new Ticket(ticketID, name);
-                    Tks.Add(tickets);
-                }
-                TicketReader.Close();
-            }
-            return Tks;
-        }
-
-        public void WriteFile(Ticket ticket)
+        public void WriteFile(Tickets ticket)
         {
             var sw = new StreamWriter(_filename);
             Contents.Add(ticket);
@@ -80,6 +78,5 @@ namespace TicketApp2._0.Models
             sw.Flush();
             sw.Close();
         }
-
     }
 }

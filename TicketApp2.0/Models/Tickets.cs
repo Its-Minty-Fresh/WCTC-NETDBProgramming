@@ -6,7 +6,7 @@ using TicketApp2._0.Models;
 
 namespace TicketApp2._0.Models
 {
-    public class Ticket : IEquatable<Ticket>
+    public class Tickets : IEquatable<Tickets>
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -16,7 +16,7 @@ namespace TicketApp2._0.Models
             return $"{nameof(Id)}: {Id}, {nameof(Name)}: {Name}";
         }
 
-        public bool Equals(Ticket other)
+        public bool Equals(Tickets other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -28,7 +28,7 @@ namespace TicketApp2._0.Models
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((Ticket)obj);
+            return Equals((Tickets)obj);
         }
 
         public override int GetHashCode()

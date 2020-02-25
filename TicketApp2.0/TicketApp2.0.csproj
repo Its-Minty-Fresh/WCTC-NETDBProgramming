@@ -93,7 +93,7 @@
   <ItemGroup>
     <Compile Include="Models\Format.cs" />
     <Compile Include="Models\MainMenu.cs" />
-    <Compile Include="Models\Ticket.cs" />
+    <Compile Include="Models\Tickets.cs" />
     <Compile Include="Models\TicketFile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,7 +107,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Files\tickets.txt" />
+    <Content Include="Files\tickets.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

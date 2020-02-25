@@ -30,7 +30,7 @@ namespace TicketApp2._0
             }
         }
 
-        private void ShowTickets(List<Ticket> tickets)
+        private void ShowTickets(List<Tickets> tickets)
         {
             foreach (var ticket in tickets.Take(10)) Console.WriteLine(ticket.ToString());
         }
@@ -41,17 +41,17 @@ namespace TicketApp2._0
             AddTicketToFile(ticket);
         }
 
-        private Ticket AskForTicketDetails()
+        private Tickets AskForTicketDetails()
         {
             Console.Write("Enter Id: ");
             var id = Console.ReadLine();
             Console.Write("Enter Name: ");
             var name = Console.ReadLine();
 
-            return new Ticket { Id = id, Name = name };
+            return new Tickets { Id = id, Name = name };
         }
 
-        private void AddTicketToFile(Ticket ticket)
+        private void AddTicketToFile(Tickets ticket)
         {
             if (!IsTicketInFile(ticket))
                 _ticketFile.WriteFile(ticket);
@@ -61,7 +61,7 @@ namespace TicketApp2._0
             }
         }
 
-        private bool IsTicketInFile(Ticket ticket)
+        private bool IsTicketInFile(Tickets ticket)
         {
             return _ticketFile.Contents.Contains(ticket);
         }
