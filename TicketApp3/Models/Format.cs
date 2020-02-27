@@ -10,7 +10,7 @@ namespace TicketApp3.Models
     {
         public string GetTicketsFormat()
         {
-            return "    {0,-4}\t{1,-50}\t{2,-4}\t{3,-4}\t{4,-4}\t{5,-4}\t{6,-4}\t{7,-4}";
+            return "    {0,-4}\t{1,-50}\t{2,-10}\t{3,-10}\t{4,-10}\t{5,-10}\t{6,-10}\t{7,-10}";
         }
 
         public string GetWGFormat()
@@ -18,15 +18,29 @@ namespace TicketApp3.Models
             return "    \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{0,-4}";
         }
 
-        public void ViewTicketHeader()
+
+        public int validateInt(string input)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n    ---------------------------------------------------------------------------------------------\n" +
-                "    View Tickets\n" +
-                "    ---------------------------------------------------------------------------------------------\n");
-            Console.WriteLine(GetTicketsFormat(), "Ticket #", "Summary", "Status", "Priorty", "Submitter", "Assigned", "WatchGroup", "Severity");
-            Console.WriteLine(GetTicketsFormat(), "------", "------------------------------------", "------", "------", "------------", "------------", "------------", "------------");
-            Console.ResetColor();
+            int output;
+            do
+            {
+                if (!int.TryParse(input, out output))
+                {
+                    Console.Write("    Please enter a numeric value: ");
+                    input = Console.ReadLine();
+                }
+                else if ((Convert.ToDouble(input)) <= 0)
+                {
+                    Console.Write("    Please enter a positive value: ");
+                    input = Console.ReadLine();
+                }
+                else
+                {
+                    output = int.Parse(input);
+                }
+            } while ((!int.TryParse(input, out output)) || ((int.Parse(input)) <= 0));
+
+            return output;
         }
     }
 }

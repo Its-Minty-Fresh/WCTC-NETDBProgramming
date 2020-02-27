@@ -52,10 +52,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Format.cs" />
-    <Compile Include="Models\Menu.cs" />
+    <Compile Include="Models\MainMenu.cs" />
     <Compile Include="Models\Record.cs" />
-    <Compile Include="Models\TicketFile.cs" />
-    <Compile Include="Models\Tickets.cs" />
+    <Compile Include="Models\Tickets\TicketFile.cs" />
+    <Compile Include="Models\Tickets\TicketMenu.cs" />
+    <Compile Include="Models\Tickets\Tickets.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -64,6 +65,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Files\tickets - Copy.txt" />
     <Content Include="Files\tickets.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

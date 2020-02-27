@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace TicketApp3.Models
 {
-    class Menu
+    class MainMenu
     {
 
-        public void ViewMainMenu()
+        public MainMenu()
         {
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n    ---------------------------------------------------------------------------------------------\n" +
-                "    Welcome to Matts Support Ticket System!!\n" +
+                "    Welcome to Matts Software Manegement System!!\n" +
                 "    ---------------------------------------------------------------------------------------------\n");
             Console.ResetColor();
             Console.WriteLine("    What would you like to do?\n\n" +
@@ -25,40 +26,29 @@ namespace TicketApp3.Models
             Console.Write("    ");
         }
 
-        public int GetMainMenuInpput()
+        public int GetMainMenuResp()
         {
+            Format format = new Format();
             int selection;
-            selection = validateInt(Console.ReadLine());
-            while ((selection < 0 || selection > 4))
-            {
-                Console.Write("    Please Enter a valid response 1 - 4 ");
-                selection = validateInt(Console.ReadLine());
-            }
+
+            selection = format.validateInt(Console.ReadLine());
+
             return selection;
         }
 
-        static public int validateInt(string input)
+        public int GetMainMenuInpput()
         {
-            int output = 0;
-            do
-            {
-                if (!int.TryParse(input, out output))
-                {
-                    Console.Write("    Please enter a numeric value: ");
-                    input = Console.ReadLine();
-                }
-                else if ((Convert.ToDouble(input)) <= 0)
-                {
-                    Console.Write("    Please enter a positive value: ");
-                    input = Console.ReadLine();
-                }
-                else
-                {
-                    output = int.Parse(input);
-                }
-            } while ((!int.TryParse(input, out output)) || ((int.Parse(input)) <= 0));
+            Format i = new Format();
+            int selection;
 
-            return output;
+            selection = i.validateInt(Console.ReadLine());
+
+            while ((selection < 0 || selection > 4))
+            {
+                Console.Write("    Please Enter a valid response 1 - 4 ");
+                selection = i.validateInt(Console.ReadLine());
+            }
+            return selection;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace TicketApp3.Models
         {
             return "../../Files/tickets.txt";
         }
+
         public TicketFile(string path)
         {
             Ticket = new List<Tickets>();
@@ -70,7 +71,7 @@ namespace TicketApp3.Models
                 sw.WriteLine($"\n{t.recordID},{t.summary},{t.status},{t.priority},{t.submitter},{t.assigned},{t.watchrgoup},{t.severity}");
                 sw.Close();
                 Ticket.Add(t);
-                logger.Info("Movie id {Id} added", t.recordID);
+                logger.Info("Ticket id {Id} added", t.recordID);
 
             }
             catch (Exception ex)
@@ -89,6 +90,7 @@ namespace TicketApp3.Models
             {
                 Console.WriteLine(format.GetTicketsFormat(), t.recordID, t.summary, t.status, t.priority, t.submitter, t.assigned, t.watchrgoup, t.severity);
             }
+            Console.WriteLine();
         }
 
     }
