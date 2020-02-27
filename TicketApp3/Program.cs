@@ -29,12 +29,7 @@ namespace TicketApp3
             {
                 
                 format.ViewTicketHeader();
-                foreach (Tickets t in ticketFile.Ticket)
-                {
-                    Console.WriteLine(format.GetTicketsFormat(), t.recordID, t.summary, t.status, t.priority, t.submitter, t.assigned, t.watchrgoup, t.severity );
-                }
-
-                Console.WriteLine("Show Tickets");
+                ticketFile.ShowTickets();
                 Console.ReadLine();
             }
             else if (resp == "2")
@@ -45,8 +40,7 @@ namespace TicketApp3
 
                 Console.WriteLine("Enter ticket summary");
                 ticket.summary = Console.ReadLine();
-                ticketFile.AddTicket2(ticket);
-
+                ticketFile.AddTicket(ticket);
 
                 Console.WriteLine("Add Tickets");
                 Console.ReadLine();

@@ -15,7 +15,10 @@ namespace TicketApp3.Models
         public string filePath { get; set; }
         public List<Tickets> Ticket { get; set; }
 
-
+        public string TicketFilePath()
+        {
+            return "../../Files/tickets.txt";
+        }
         public TicketFile(string path)
         {
             Ticket = new List<Tickets>();
@@ -25,7 +28,7 @@ namespace TicketApp3.Models
             //{
                 StreamReader sr = new StreamReader(filePath);
                 // first line contains column headers
-                sr.ReadLine();
+               // sr.ReadLine();
                 while (!sr.EndOfStream)
                 {
                     // create instance of Movie class
@@ -55,40 +58,9 @@ namespace TicketApp3.Models
         }
 
 
-        public void AddTicket(List<Tickets> t)
+        public void AddTicket(Tickets t)
         {
-            //try
-            //{
-                // first generate movie id
-                //t.recordID = Ticket.Max(m => m.recordID) + 1;
-                // if title contains a comma, wrap it in quotes
-                //string title = ticket.title.IndexOf(',') != -1 ? $"\"{ticket.title}\"" : ticket.title;
-
-                StreamWriter sw = new StreamWriter(filePath);
-                //sw.WriteLine($"\n{t.recordID},{t.summary},{t.status},{t.priority},{t.submitter},{t.assigned},{t.watchrgoup},{t.severity}");
-                //sw.Close();
-                //// add movie details to Lists
-                //Ticket.Add(t);
-                //// log transaction
-                //logger.Info("Movie id {Id} added", t.recordID);
-
-
-                foreach(Tickets tk in t)
-                {
-                    string tkt = tk.ToString();
-                    sw.WriteLine(tkt);
-                }
-
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    logger.Error(ex.Message);
-            //}
-        }
-
-        public void AddTicket2(Tickets t)
-        {
+            List<Tickets> tickets = new List<Tickets>();
             try
             {
                 //first generate movie id
@@ -97,15 +69,25 @@ namespace TicketApp3.Models
                 StreamWriter sw = new StreamWriter(filePath);
                 sw.WriteLine($"\n{t.recordID},{t.summary},{t.status},{t.priority},{t.submitter},{t.assigned},{t.watchrgoup},{t.severity}");
                 sw.Close();
-                // add movie details to Lists
                 Ticket.Add(t);
-                // log transaction
                 logger.Info("Movie id {Id} added", t.recordID);
 
             }
             catch (Exception ex)
             {
                 logger.Error(ex.Message);
+            }
+        }
+
+
+        public void ShowTickets()
+        {
+
+            TicketFile ticketFile = new TicketFile(TicketFilePath());
+            Format format = new Format();
+            foreach (Tickets t in ticketFile.Ticket)
+            {
+                Console.WriteLine(format.GetTicketsFormat(), t.recordID, t.summary, t.status, t.priority, t.submitter, t.assigned, t.watchrgoup, t.severity);
             }
         }
 
