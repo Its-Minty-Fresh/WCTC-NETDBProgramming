@@ -8,8 +8,6 @@ namespace TicketApp3.Models
 {
     class TicketMenu
     {
-        private TicketFile ticketFile;
-        
         public void Process(int selection)
         {
             string file = "../../Files/tickets.txt";
@@ -26,7 +24,10 @@ namespace TicketApp3.Models
                     tm.AddTicket();
                     break;
                 case 2:
-                    Console.WriteLine("This is switch 2");
+                    tm.EditTicket();
+                    break;
+                case 3:
+                    tm.DeleteTicket();
                     break;
             }
         }
@@ -90,7 +91,35 @@ namespace TicketApp3.Models
 
         }
 
-    public int GetTktMenuResp()
+        public void EditTicket()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\n    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
+                "    Edit Ticket\n" +
+                "    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+            Console.ResetColor();
+
+            Console.Write("\n    Editing Functionality to be added in a future release. \n" +
+                          "    Press any key ro return to the main menu: ");
+            Console.ReadKey();
+        }
+
+        public void DeleteTicket()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\n    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
+                "    Delete Ticket\n" +
+                "    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+            Console.ResetColor();
+
+            Console.Write("\n    Deleteing Functionality to be added in a future release. \n" +
+                          "    Press any key ro return to the main menu: ");
+            Console.ReadKey();
+        }
+
+        public int GetTktMenuResp()
         {
             Format format = new Format();
             int selection;

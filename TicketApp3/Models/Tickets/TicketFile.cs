@@ -62,22 +62,26 @@ namespace TicketApp3.Models
         public void AddTicket(Tickets t)
         {
             List<Tickets> tickets = new List<Tickets>();
-            try
-            {
-                //first generate movie id
-                t.recordID = Ticket.Max(m => m.recordID) + 1;
 
-                StreamWriter sw = new StreamWriter(filePath);
-                sw.WriteLine($"\n{t.recordID},{t.summary},{t.status},{t.priority},{t.submitter},{t.assigned},{t.watchrgoup},{t.severity}");
-                sw.Close();
-                Ticket.Add(t);
-                logger.Info("Ticket id {Id} added", t.recordID);
+            StreamWriter sw = new StreamWriter(filePath);
+            sw.WriteLine($"\n{t.recordID},{t.summary},{t.status},{t.priority},{t.submitter},{t.assigned},{t.watchrgoup},{t.severity}");
 
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex.Message);
-            }
+            //try
+            //{
+            //    //first generate movie id
+            //    t.recordID = Ticket.Max(m => m.recordID) + 1;
+
+            //    StreamWriter sw = new StreamWriter(filePath);
+            //    sw.WriteLine($"\n{t.recordID},{t.summary},{t.status},{t.priority},{t.submitter},{t.assigned},{t.watchrgoup},{t.severity}");
+            //    sw.Close();
+            //    Ticket.Add(t);
+            //    logger.Info("Ticket id {Id} added", t.recordID);
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.Error(ex.Message);
+            //}
         }
 
 
