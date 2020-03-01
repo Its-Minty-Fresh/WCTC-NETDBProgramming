@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TicketApp3.Models.Enhancements
 {
-    class Enhancement : Record
+    public class Enhancement : Record
     {
         public int software { get; set; }
         public double cost { get; set; }

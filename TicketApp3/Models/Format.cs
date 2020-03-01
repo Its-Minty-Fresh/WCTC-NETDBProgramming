@@ -13,6 +13,16 @@ namespace TicketApp3.Models
             return "    {0,-4}\t{1,-50}\t{2,-10}\t{3,-10}\t{4,-10}\t{5,-10}\t{6,-10}\t{7,-10}";
         }
 
+        public string GetEnhancementsFormat()
+        {
+            return "    {0,-4}\t{1,-50}\t{2,-10}\t{3,-10}\t{4,-10}\t{5,-10}\t{6,-10}\t{7,-10}\t{8,-10}\t{9,-10}\t{10,-10}";
+        }
+
+        public string GetTasksFormat()
+        {
+            return "    {0,-4}\t{1,-50}\t{2,-10}\t{3,-10}\t{4,-10}\t{5,-10}\t{6,-10}\t{7,-10}\t{8,-10}";
+        }
+
         public string GetWGFormat()
         {
             return "    \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{0,-4}";

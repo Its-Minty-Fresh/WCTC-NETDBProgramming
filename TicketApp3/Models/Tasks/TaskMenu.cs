@@ -4,99 +4,100 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicketApp3.Models
+namespace TicketApp3.Models.Tasks
 {
-    class TicketMenu
+    class TaskMenu
     {
         public void Process(int selection)
         {
-            string file = "../../Files/tickets.txt";
-            TicketFile tf = new TicketFile(file);
-            TicketMenu tm = new TicketMenu();
-            tm.TicketMenuHeader();
-            tf.ShowTickets();
-            tm.ViewTicketMenu();
-            selection = tm.GetTktMenuInpput();
+            string file = "../../Files/enhancements.txt";
+            TaskFile tf = new TaskFile(file);
+            TaskMenu et = new TaskMenu();
+            et.TaskMenuHeader();
+            tf.ShowTasks();
+            et.ViewTaskMenu();
+            selection = et.GetTaskMenuInpput();
 
             switch (selection)
             {
                 case 1:
-                    tm.AddTicket();
+                    et.AddTask();
+                    et.GetTaskMenuInpput();
                     break;
                 case 2:
-                    tm.EditTicket();
+                    et.EditTask();
                     break;
                 case 3:
-                    tm.DeleteTicket();
+                    et.DeleteTask();
                     break;
             }
         }
-        
 
-        public void TicketMenuHeader()
+
+        public void TaskMenuHeader()
         {
             Console.Clear();
             Format f = new Format();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
-                "    View Tickets\n" +
+                "    View Tasks\n" +
                 "    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-            Console.WriteLine(f.GetTicketsFormat(), "Ticket #", "Summary", "Status", "Priorty", "Submitter", "Assigned", "WatchGroup", "Severity");
-            Console.WriteLine(f.GetTicketsFormat(), "------", "--------------------------------------------------", "----------", "----------", "----------", "----------", "----------", "----------");
+            Console.WriteLine(f.GetTasksFormat(), "Ticket #", "Summary", "Status", "Priorty", "Submitter", "Assigned", "WatchGroup", "Project", "Due Date");
+            Console.WriteLine(f.GetTasksFormat(), "------", "--------------------------------------------------", "----------", "----------", "----------", "----------", "----------", "----------", "----------");
             Console.ResetColor();
         }
 
-        public void ViewTicketMenu()
+        public void ViewTaskMenu()
         {
             Console.WriteLine("    What would you like to do?\n\n" +
-                "    1) Add Ticket\n" +
-                "    2) Edit Ticket\n" +
-                "    3) Delete Ticket\n" +
+                "    1) Add Task\n" +
+                "    2) Edit Task\n" +
+                "    3) Delete Task\n" +
                 "    4) Return to Main Menu");
 
             Console.Write("    ");
         }
 
-        public void AddTicket()
+        public void AddTask()
         {
             Format f = new Format();
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
-                "    Add Ticket\n" +
+                "    Add Task\n" +
                 "    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
             Console.ResetColor();
 
 
-            string file = "../../Files/tickets.txt";
-            TicketFile tf = new TicketFile(file);
-            Tickets ticket = new Tickets();
+            string file = "../../Files/tasks.txt";
+            TaskFile tf = new TaskFile(file);
+            Tasks task = new Tasks();
 
-            Console.Write("    Enter Ticket Summary: ");
-            ticket.summary = Console.ReadLine();
+            Console.Write("    Enter Task Summary: ");
+            task.summary = Console.ReadLine();
 
-            Console.Write("\n    Enter Ticket Priority: ");
-          
-            ticket.priority = f.validateInt(Console.ReadLine());
-            if (ticket.priority > 3)
+            Console.Write("\n    Enter Task Priority: ");
+
+            task.priority = f.validateInt(Console.ReadLine());
+            if (task.priority > 3)
             {
                 Console.Write("    Please Enter a valid proiroity 1 - 3 ");
-                ticket.priority = f.validateInt(Console.ReadLine());
+                task.priority = f.validateInt(Console.ReadLine());
             }
 
-            tf.AddTicket(ticket);
-            Console.Write("    Ticket succesfully added! Press any key ro return to the main menu: ");
+            tf.AddTask(task);
+            Console.Write("    Task succesfully added! Press any key ro return to the main menu: ");
             Console.ReadKey();
 
         }
 
-        public void EditTicket()
+        public void EditTask()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
-                "    Edit Ticket\n" +
+                "    Edit Task\n" +
                 "    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
             Console.ResetColor();
 
@@ -105,12 +106,12 @@ namespace TicketApp3.Models
             Console.ReadKey();
         }
 
-        public void DeleteTicket()
+        public void DeleteTask()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
-                "    Delete Ticket\n" +
+                "    Delete Task\n" +
                 "    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
             Console.ResetColor();
 
@@ -119,7 +120,7 @@ namespace TicketApp3.Models
             Console.ReadKey();
         }
 
-        public int GetTktMenuInpput()
+        public int GetTaskMenuInpput()
         {
             Format i = new Format();
             int selection;

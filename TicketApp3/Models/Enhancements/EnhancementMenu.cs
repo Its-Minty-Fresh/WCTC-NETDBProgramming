@@ -4,99 +4,99 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicketApp3.Models
+namespace TicketApp3.Models.Enhancements
 {
-    class TicketMenu
+    class EnhancementMenu
     {
         public void Process(int selection)
         {
-            string file = "../../Files/tickets.txt";
-            TicketFile tf = new TicketFile(file);
-            TicketMenu tm = new TicketMenu();
-            tm.TicketMenuHeader();
-            tf.ShowTickets();
-            tm.ViewTicketMenu();
-            selection = tm.GetTktMenuInpput();
+            string file = "../../Files/enhancements.txt";
+            EnhancementFile ef = new EnhancementFile(file);
+            EnhancementMenu em = new EnhancementMenu();
+            em.EnhancementMenuHeader();
+            ef.ShowEnhancements();
+            em.ViewEnhancementtMenu();
+            selection = em.GetEncmntMenuInpput();
 
             switch (selection)
             {
                 case 1:
-                    tm.AddTicket();
+                    em.AddEnhancement();
                     break;
                 case 2:
-                    tm.EditTicket();
+                    em.EditEnhancement();
                     break;
                 case 3:
-                    tm.DeleteTicket();
+                    em.DeleteEnhancement();
                     break;
             }
         }
-        
 
-        public void TicketMenuHeader()
+
+        public void EnhancementMenuHeader()
         {
             Console.Clear();
             Format f = new Format();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
-                "    View Tickets\n" +
+                "    View Enhancements\n" +
                 "    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-            Console.WriteLine(f.GetTicketsFormat(), "Ticket #", "Summary", "Status", "Priorty", "Submitter", "Assigned", "WatchGroup", "Severity");
-            Console.WriteLine(f.GetTicketsFormat(), "------", "--------------------------------------------------", "----------", "----------", "----------", "----------", "----------", "----------");
+            Console.WriteLine(f.GetEnhancementsFormat(), "Ticket #", "Summary", "Status", "Priorty", "Submitter", "Assigned", "WatchGroup", "Software", "Cost", "Reason", "Estimate");
+            Console.WriteLine(f.GetEnhancementsFormat(), "------", "--------------------------------------------------", "----------", "----------", "----------", "----------", "----------", "----------", "----------", "----------", "----------");
             Console.ResetColor();
         }
 
-        public void ViewTicketMenu()
+        public void ViewEnhancementtMenu()
         {
             Console.WriteLine("    What would you like to do?\n\n" +
-                "    1) Add Ticket\n" +
-                "    2) Edit Ticket\n" +
-                "    3) Delete Ticket\n" +
+                "    1) Add Enhancement\n" +
+                "    2) Edit Enhancement\n" +
+                "    3) Delete Enhancement\n" +
                 "    4) Return to Main Menu");
 
             Console.Write("    ");
         }
 
-        public void AddTicket()
+        public void AddEnhancement()
         {
             Format f = new Format();
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
-                "    Add Ticket\n" +
+                "    Add Enhancement\n" +
                 "    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
             Console.ResetColor();
 
 
-            string file = "../../Files/tickets.txt";
-            TicketFile tf = new TicketFile(file);
-            Tickets ticket = new Tickets();
+            string file = "../../Files/Enhancements.txt";
+            EnhancementFile ef = new EnhancementFile(file);
+            Enhancement enhancement = new Enhancement();
 
-            Console.Write("    Enter Ticket Summary: ");
-            ticket.summary = Console.ReadLine();
+            Console.Write("    Enter Enhancement Summary: ");
+            enhancement.summary = Console.ReadLine();
 
             Console.Write("\n    Enter Ticket Priority: ");
-          
-            ticket.priority = f.validateInt(Console.ReadLine());
-            if (ticket.priority > 3)
+
+            enhancement.priority = f.validateInt(Console.ReadLine());
+            if (enhancement.priority > 3)
             {
                 Console.Write("    Please Enter a valid proiroity 1 - 3 ");
-                ticket.priority = f.validateInt(Console.ReadLine());
+                enhancement.priority = f.validateInt(Console.ReadLine());
             }
 
-            tf.AddTicket(ticket);
-            Console.Write("    Ticket succesfully added! Press any key ro return to the main menu: ");
+            ef.AddEnhancement(enhancement);
+            Console.Write("    Enhancement succesfully added! Press any key ro return to the main menu: ");
             Console.ReadKey();
 
         }
 
-        public void EditTicket()
+        public void EditEnhancement()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
-                "    Edit Ticket\n" +
+                "    Edit Enhancement\n" +
                 "    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
             Console.ResetColor();
 
@@ -105,12 +105,12 @@ namespace TicketApp3.Models
             Console.ReadKey();
         }
 
-        public void DeleteTicket()
+        public void DeleteEnhancement()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
-                "    Delete Ticket\n" +
+                "    Delete Enhancement\n" +
                 "    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
             Console.ResetColor();
 
@@ -119,7 +119,7 @@ namespace TicketApp3.Models
             Console.ReadKey();
         }
 
-        public int GetTktMenuInpput()
+        public int GetEncmntMenuInpput()
         {
             Format i = new Format();
             int selection;

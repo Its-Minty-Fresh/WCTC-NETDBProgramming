@@ -26,16 +26,6 @@ namespace TicketApp3.Models
             Console.Write("    ");
         }
 
-        public int GetMainMenuResp()
-        {
-            Format format = new Format();
-            int selection;
-
-            selection = format.validateInt(Console.ReadLine());
-
-            return selection;
-        }
-
         public int GetMainMenuInpput()
         {
             Format i = new Format();

@@ -93,9 +93,13 @@
   <ItemGroup>
     <Compile Include="Models\Enhancements\Enhancement.cs" />
     <Compile Include="Models\Enhancements\EnhancementFile.cs" />
+    <Compile Include="Models\Enhancements\EnhancementMenu.cs" />
     <Compile Include="Models\Format.cs" />
     <Compile Include="Models\MainMenu.cs" />
     <Compile Include="Models\Record.cs" />
+    <Compile Include="Models\Tasks\TaskFile.cs" />
+    <Compile Include="Models\Tasks\TaskMenu.cs" />
+    <Compile Include="Models\Tasks\Tasks.cs" />
     <Compile Include="Models\Tickets\TicketFile.cs" />
     <Compile Include="Models\Tickets\TicketMenu.cs" />
     <Compile Include="Models\Tickets\Tickets.cs" />
@@ -107,10 +111,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Files\enhancements - Copy.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Files\enhancements.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Files\tickets - Copy.txt" />
+    <Content Include="Files\tasks - Copy.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\tasks.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\tickets - Copy.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Files\tickets.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
