@@ -25,7 +25,7 @@ namespace TicketApp3.Models
 
             Console.Write("    ");
         }
-
+         
         public int GetMainMenuInpput()
         {
             Format i = new Format();
