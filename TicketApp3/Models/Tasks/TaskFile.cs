@@ -62,10 +62,11 @@ namespace TicketApp3.Models.Tasks
 
         public void AddTask(Tasks t)
         {
-            List<Tasks> tasks = new List<Tasks>();
+            StreamWriter sw = new StreamWriter(filePath, append:true);
+            sw.WriteLine($"{t.recordID},{t.summary},{t.status},{t.priority},{t.submitter},{t.assigned},{t.watchrgoup},{t.project},{t.dueDate}");
+            sw.Close();
+            Task.Add(t);
 
-            StreamWriter sw = new StreamWriter(filePath);
-            sw.WriteLine($"\n{t.recordID},{t.summary},{t.status},{t.priority},{t.submitter},{t.assigned},{t.watchrgoup},{t.project},{t.dueDate}");
 
             //try
             //{

@@ -10,25 +10,25 @@ namespace TicketApp3.Models.Tasks
     {
         public void Process(int selection)
         {
-            string file = "../../Files/enhancements.txt";
+            string file = "../../Files/tasks.txt";
             TaskFile tf = new TaskFile(file);
-            TaskMenu et = new TaskMenu();
-            et.TaskMenuHeader();
+            TaskMenu tm = new TaskMenu();
+            tm.TaskMenuHeader();
             tf.ShowTasks();
-            et.ViewTaskMenu();
-            selection = et.GetTaskMenuInpput();
+            tm.ViewTaskMenu();
+            selection = tm.GetTaskMenuInpput();
 
             switch (selection)
             {
                 case 1:
-                    et.AddTask();
-                    et.GetTaskMenuInpput();
+                    tm.AddTask();
+                    tm.GetTaskMenuInpput();
                     break;
                 case 2:
-                    et.EditTask();
+                    tm.EditTask();
                     break;
                 case 3:
-                    et.DeleteTask();
+                    tm.DeleteTask();
                     break;
             }
         }
