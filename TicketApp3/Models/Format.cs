@@ -28,6 +28,11 @@ namespace TicketApp3.Models
             return "    \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{0,-4}";
         }
 
+        public string GetUserFormat()
+        {
+            return "    {0,-4}\t{1,-15}\t{2,-15}";
+        }
+
 
         public int validateInt(string input)
         {

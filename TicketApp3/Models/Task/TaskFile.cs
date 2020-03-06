@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NLog;
 using System.IO;
 
-namespace TicketApp3.Models.Tasks
+namespace TicketApp3.Models
 {
-    class TaskFile
+    public class TaskFile
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
@@ -18,6 +19,12 @@ namespace TicketApp3.Models.Tasks
         {
             return "../../Files/tasks.txt";
         }
+
+        public TaskFile()
+        {
+
+        }
+
 
         public TaskFile(string path)
         {
@@ -46,12 +53,11 @@ namespace TicketApp3.Models.Tasks
                 task.project = Int32.Parse(taskDetails[7]);
                 task.dueDate = taskDetails[8];
 
-
                 Task.Add(task);
             }
-            // close file when done
             sr.Close();
             logger.Info("Tickets in file {Count}", Task.Count);
+
             //}
             //catch (Exception ex)
             //{
@@ -62,8 +68,12 @@ namespace TicketApp3.Models.Tasks
 
         public void AddTask(Tasks t)
         {
+            TicketFile tf = new TicketFile();
+            EnhancementFile ef = new EnhancementFile();
+            int i = new[] { tf.GetMaxTicketID(), ef.GetMaxEnhID(), GetMaxTaskID() }.Max() + 1;
+
             StreamWriter sw = new StreamWriter(filePath, append:true);
-            sw.WriteLine($"{t.recordID},{t.summary},{t.status},{t.priority},{t.submitter},{t.assigned},{t.watchrgoup},{t.project},{t.dueDate}");
+            sw.WriteLine($"{i},{t.summary},{t.status},{t.priority},{t.submitter},{t.assigned},{t.watchrgoup},{t.project},{t.dueDate}");
             sw.Close();
             Task.Add(t);
 
@@ -86,7 +96,6 @@ namespace TicketApp3.Models.Tasks
             //}
         }
 
-
         public void ShowTasks()
         {
 
@@ -98,5 +107,18 @@ namespace TicketApp3.Models.Tasks
             }
             Console.WriteLine();
         }
+
+        public int GetMaxTaskID()
+        {
+            TaskFile tskf = new TaskFile(TaskFilePath());
+            List<int> maxID = new List<int>();
+
+            foreach (Tasks t in tskf.Task)
+            {
+                maxID.Add(t.recordID);
+            }
+            return maxID.Max();
+        }
+
     }
 }

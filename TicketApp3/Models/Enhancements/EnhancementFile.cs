@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace TicketApp3.Models.Enhancements
+namespace TicketApp3.Models
 {
     public class EnhancementFile
     {
@@ -17,6 +17,11 @@ namespace TicketApp3.Models.Enhancements
         public string EnhancementFilePath()
         {
             return "../../Files/enhancements.txt";
+        }
+
+        public EnhancementFile()
+        {
+
         }
 
         public EnhancementFile(string path)
@@ -63,10 +68,14 @@ namespace TicketApp3.Models.Enhancements
 
         public void AddEnhancement(Enhancement e)
         {
-            List<Enhancement> enhancement = new List<Enhancement>();
+            TicketFile tf = new TicketFile();
+            TaskFile tkf = new TaskFile();
+            int i = new[] { tf.GetMaxTicketID(), tkf.GetMaxTaskID(), GetMaxEnhID() }.Max() + 1;
 
-            StreamWriter sw = new StreamWriter(filePath);
-            sw.WriteLine($"\n{e.recordID},{e.summary},{e.status},{e.priority},{e.submitter},{e.assigned},{e.watchrgoup},{e.software},{e.cost},{e.reason},{e.estimate}");
+            StreamWriter sw = new StreamWriter(filePath,append:true);
+            sw.WriteLine($"\n{i},{e.summary},{e.status},{e.priority},{e.submitter},{e.assigned},{e.watchrgoup},{e.software},{e.cost},{e.reason},{e.estimate}");
+            Enhancemnet.Add(e);
+            sw.Close();
 
             //try
             //{
@@ -98,5 +107,18 @@ namespace TicketApp3.Models.Enhancements
             }
             Console.WriteLine();
         }
+
+        public int GetMaxEnhID()
+        {
+            EnhancementFile ef = new EnhancementFile(EnhancementFilePath());
+            List<int> maxID = new List<int>();
+
+            foreach (Enhancement e in ef.Enhancemnet)
+            {
+                maxID.Add(e.recordID);
+            }
+            return maxID.Max();
+        }
+
     }
 }

@@ -17,7 +17,7 @@ namespace TicketApp3.Models
         }
 
         // public method
-        public virtual void Display()
+        public override void Display()
         {
             Console.WriteLine($"Ticket Id: {recordID}\nSummary: {summary}\nStatus: {status}\nPriority: {priority}\nSubmitter: {submitter}\nAssigned: {assigned}\nWatchgroup: {watchrgoup}\nSeverity: {severity}"); 
         }
@@ -26,5 +26,16 @@ namespace TicketApp3.Models
         {
             Console.WriteLine($"Ticket Id: {recordID}\nSummary: {summary}");
         }
+
+        //public static List<Tickets> LoadTickets()
+        //{
+        //    List<TicketFile> tickets = new List<TicketFile>();
+
+        //    foreach (TicketFile t in tickets)
+        //    {
+        //        tickets.Add(t);
+        //    }
+        //   // return tickets;
+        //}
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicketApp3.Models.Enhancements
+namespace TicketApp3.Models
 {
     public class Enhancement : Record
     {

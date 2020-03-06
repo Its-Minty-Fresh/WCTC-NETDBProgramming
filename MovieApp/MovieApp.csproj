@@ -103,6 +103,9 @@
     <None Include="App.config" />
     <None Include="Files\movies.csv" />
     <None Include="Files\movies_Master.csv" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

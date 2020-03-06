@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 
-namespace TicketApp3.Models.Tasks
+namespace TicketApp3.Models
 {
-    class Tasks : Record
+    public class Tasks : Record
     {
         public int project { get; set; }
         public string  dueDate { get; set; }

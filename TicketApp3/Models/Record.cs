@@ -18,6 +18,8 @@ namespace TicketApp3.Models
 
         public Record()
         {
+            //Format f = new Format();
+            //recordID = f.GetMaxRecordID();
             recordID = 0;
             summary = "N/A";
             status = 0;
@@ -33,3 +35,4 @@ namespace TicketApp3.Models
         }
     }
 }
+

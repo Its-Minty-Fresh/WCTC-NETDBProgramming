@@ -15,6 +15,8 @@ namespace TicketApp3.Models
         public string filePath { get; set; }
         public List<Tickets> Ticket { get; set; }
 
+        public int MaxID { get; set; }
+
         public string TicketFilePath()
         {
             return "../../Files/tickets.txt";
@@ -61,10 +63,14 @@ namespace TicketApp3.Models
 
         public void AddTicket(Tickets t)
         {
-            List<Tickets> tickets = new List<Tickets>();
+            TaskFile tf = new TaskFile();
+            EnhancementFile ef = new EnhancementFile();
+            int i = new[] { tf.GetMaxTaskID(), ef.GetMaxEnhID(), GetMaxTicketID() }.Max() + 1;
 
-            StreamWriter sw = new StreamWriter(filePath);
-            sw.WriteLine($"\n{t.recordID},{t.summary},{t.status},{t.priority},{t.submitter},{t.assigned},{t.watchrgoup},{t.severity}");
+            StreamWriter sw = new StreamWriter(filePath,append:true);
+            sw.WriteLine($"\n{i},{t.summary},{t.status},{t.priority},{t.submitter},{t.assigned},{t.watchrgoup},{t.severity}");
+            Ticket.Add(t);
+            sw.Close();
 
             //try
             //{
@@ -87,16 +93,43 @@ namespace TicketApp3.Models
 
         public void ShowTickets()
         {
-
             TicketFile ticketFile = new TicketFile(TicketFilePath());
-            Format format = new Format();
+
+            Format f = new Format();
             foreach (Tickets t in ticketFile.Ticket)
             {
-                Console.WriteLine(format.GetTicketsFormat(), t.recordID, t.summary, t.status, t.priority, t.submitter, t.assigned, t.watchrgoup, t.severity);
+                Console.WriteLine(f.GetTicketsFormat(), t.recordID, t.summary, t.status, t.priority, t.submitter, t.assigned, t.watchrgoup, t.severity);
             }
-            Console.WriteLine();
         }
 
+        public static List<Tickets> LoadTickets()
+        {
+            List<Tickets> tickets = new List<Tickets>();
+            
+            foreach(Tickets t in tickets)
+            {
+                tickets.Add(t);
+            }
+            return tickets;
+        }
+
+
+        public TicketFile()
+        {
+
+        }
+
+        public int GetMaxTicketID()
+        {
+            TicketFile tf = new TicketFile(TicketFilePath());
+            List<int> maxID = new List<int>();
+
+            foreach (Tickets t in tf.Ticket)
+            {
+                maxID.Add(t.recordID);
+            }
+            return maxID.Max();
+        }
     }
 
 }
