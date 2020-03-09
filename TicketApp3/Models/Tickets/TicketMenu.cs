@@ -131,8 +131,8 @@ namespace TicketApp3.Models
                 "    --------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
             Console.ResetColor();
             Console.Write("\n    Enter any portion of a Ticket Summary: \n");
-
-             string search = Console.ReadLine().ToLower();
+            Console.Write("    ");
+            string search = Console.ReadLine().ToLower();
 
 
 
@@ -145,12 +145,7 @@ namespace TicketApp3.Models
 
 
             TicketFile tf = new TicketFile("../../Files/tickets.txt");
-            var ticket = tf.Ticket.Where(t => t.summary.ToLower().Contains("THIS"));
-            Format f = new Format();
-            foreach (Tickets t in tf.Ticket)
-            {
-                Console.WriteLine(f.GetTicketsFormat(), t.recordID, t.summary, t.status, t.priority, t.submitter, t.assigned, t.watchrgoup, t.severity);
-            }
+            var ticket = tf.Ticket.Where(t => t.summary.ToLower().Contains(search));
 
             if (ticket.Count() > 0)
             {
@@ -166,7 +161,7 @@ namespace TicketApp3.Models
 
 
 
-            Console.Write("    Press any key ro return to the main menu: ");
+            Console.WriteLine("\n    Press any key ro return to the main menu: ");
             
             Console.ReadKey();
         }
