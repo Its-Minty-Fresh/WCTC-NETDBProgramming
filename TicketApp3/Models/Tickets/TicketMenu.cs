@@ -151,7 +151,8 @@ namespace TicketApp3.Models
             {
                 foreach (Tickets t in ticket)
                 {
-                    Console.WriteLine(t);
+                    Format f = new Format();
+                    Console.WriteLine(f.GetTicketsFormat(), t.recordID, t.summary, t.status, t.priority, t.submitter, t.assigned, t.watchrgoup, t.severity);
                 }
             }
             else

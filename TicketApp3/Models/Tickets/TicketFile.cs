@@ -83,7 +83,7 @@ namespace TicketApp3.Models
             //    Ticket.Add(t);
             //    logger.Info("Ticket id {Id} added", t.recordID);
 
-            //}
+            //}t.recordID, t.summary, t.status, t.priority, t.submitter, t.assigned, t.watchrgoup, t.severity);
             //catch (Exception ex)
             //{
             //    logger.Error(ex.Message);
